@@ -11,7 +11,7 @@ const PROGRESS_TTL = 7 * 24 * 60 * 60 * 1000 // 7 天
 
 Page({
   data:{
-    questions:[], total:0, currentIndex:0, answers:[],
+    questions:[], total:0, currentIndex:0, answers:[], timings:[],
     question:null, progress:0, dimensionText:''
   },
 
@@ -38,7 +38,8 @@ Page({
               questions: saved.questions,
               total: saved.questions.length,
               currentIndex: saved.currentIndex,
-              answers: saved.answers
+              answers: saved.answers,
+              timings: saved.timings || []
             })
             this.update()
           } else {
@@ -57,7 +58,8 @@ Page({
       questions: shuffled,
       total: shuffled.length,
       currentIndex: 0,
-      answers: []
+      answers: [],
+      timings: []
     })
     wx.removeStorageSync(PROGRESS_KEY)
     this.update()
@@ -66,6 +68,7 @@ Page({
   update(){
     const i = this.data.currentIndex
     const q = this.data.questions[i]
+    this._questionShownAt = Date.now()
     this.setData({
       question: q,
       progress: Math.round((i+1)/this.data.questions.length*100),
@@ -77,6 +80,7 @@ Page({
     wx.setStorageSync(PROGRESS_KEY, {
       questions: this.data.questions,
       answers: this.data.answers,
+      timings: this.data.timings,
       currentIndex: this.data.currentIndex,
       timestamp: Date.now()
     })
@@ -84,9 +88,16 @@ Page({
 
   select(e){
     const idx = e.currentTarget.dataset.index
+    const i = this.data.currentIndex
     const answers = this.data.answers
-    answers[this.data.currentIndex] = idx
-    this.setData({ answers })
+    const timings = this.data.timings
+    answers[i] = idx
+    if(this._questionShownAt){
+      const dt = Date.now() - this._questionShownAt
+      // 只在首次回答时记录(避免改答案污染统计)
+      if(timings[i] === undefined || timings[i] === null) timings[i] = dt
+    }
+    this.setData({ answers, timings })
     this.saveProgress()
   },
 
@@ -105,7 +116,7 @@ Page({
       return
     }
     if(i >= this.data.questions.length - 1){
-      const result = calculateResult(this.data.answers, this.data.questions)
+      const result = calculateResult(this.data.answers, this.data.questions, this.data.timings)
 
       // 写入历史
       const history = wx.getStorageSync('tradeDNAHistory') || []

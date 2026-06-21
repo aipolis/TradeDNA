@@ -42,6 +42,17 @@
       <view class="poster-name">{{p.name}}</view>
     </view>
 
+    <view class="poster-mentor {{mentorAvatar?'has-avatar':''}}" wx:if="{{p.mentor.name}}">
+      <view wx:if="{{mentorAvatar}}" class="poster-mentor-avatar">
+        <image class="poster-mentor-avatar-img" src="{{mentorAvatar}}" mode="aspectFill"/>
+      </view>
+      <view class="poster-mentor-body">
+        <view class="poster-mentor-eyebrow">—   同  类  导  师   —</view>
+        <view class="poster-mentor-name">{{p.mentor.name}}</view>
+        <view class="poster-mentor-title">{{p.mentor.title}}</view>
+      </view>
+    </view>
+
     <view class="poster-mid">
       <view class="poster-radar">
         <canvas type="2d" id="posterRadar" class="poster-radar-canvas"></canvas>

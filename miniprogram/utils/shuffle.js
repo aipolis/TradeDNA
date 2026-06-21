@@ -1,7 +1,7 @@
 /**
  * 题目乱序工具
- * - 同一维度内的题目顺序打乱(用户能看到维度 pill,但无法从位置推断哪个选项加什么分)
- * - 每题的 A/B 选项顺序也打乱(避免位置偏好)
+ * - 同一维度内的题目顺序打乱
+ * - 每题选项顺序也打乱(避免"全选第一项"刷出稳定人格)
  * - 行为题(behavior)整体保留在末尾
  */
 
@@ -12,6 +12,10 @@ function fisherYates(arr){
     ;[a[i],a[j]] = [a[j],a[i]]
   }
   return a
+}
+
+function shuffleOptions(q){
+  return { ...q, options: fisherYates(q.options) }
 }
 
 function shuffleQuestions(questions){
@@ -25,10 +29,9 @@ function shuffleQuestions(questions){
   })
   const mainQs = []
   mainOrder.forEach(dim=>{
-    if(groups[dim]) fisherYates(groups[dim]).forEach(q=>mainQs.push(q))
+    if(groups[dim]) fisherYates(groups[dim]).forEach(q=>mainQs.push(shuffleOptions(q)))
   })
-  const behaviorQs = fisherYates(behaviorGroup)
-  // 注意：选项顺序保持不变(选项展示统一为 A/B,无方向性偏好)
+  const behaviorQs = fisherYates(behaviorGroup).map(shuffleOptions)
   return [...mainQs, ...behaviorQs]
 }
 

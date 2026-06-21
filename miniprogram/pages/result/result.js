@@ -129,11 +129,15 @@ Page({
       setTimeout(()=>wx.reLaunch({ url:'/pages/intro/intro' }), 800)
       return
     }
-    const p = result.personality
+    // 用 result.code 重新查最新 personality,避免旧 storage 里的旧人格数据
+    const { getPersonality } = require('../../utils/personalities')
+    const p = getPersonality(result.code) || result.personality
+    result.personality = p
     const scoreList = Object.keys(p.scores).map(k=>({ name:k, value:p.scores[k] })).sort((a,b)=>b.value-a.value)
     const dim4 = buildDim4(result.score||{}, result)
     const mentorInitial = p.mentor && p.mentor.name ? p.mentor.name.charAt(0) : ''
-    this.setData({ result, p, scoreList, dim4, mentorInitial }, ()=>this.renderRadar(scoreList))
+    const mentorAvatar = p.mentor ? require('../../utils/mentorAvatar').getMentorAvatar(p.mentor.name) : ''
+    this.setData({ result, p, scoreList, dim4, mentorInitial, mentorAvatar }, ()=>this.renderRadar(scoreList))
   },
   renderRadar(scoreList){
     const tryRender = (attempt)=>{

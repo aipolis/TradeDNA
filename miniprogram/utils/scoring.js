@@ -22,7 +22,34 @@ function deriveCode(score){
   }
 }
 
-function calculateResult(answers, questions){
+function detectValidityWarnings(timings, mainScore, divergenceCount){
+  const warnings = []
+  // 信号 1:答题反应时过快
+  if(timings && timings.length){
+    const valid = timings.filter(t => t > 0)
+    if(valid.length){
+      const fast = valid.filter(t => t < 1000).length
+      if(fast / valid.length >= 0.6) warnings.push({
+        type:'reactionFast',
+        text:'⚠️ 你的答题速度过快(超过一半题目用时不足 1 秒),结果仅供参考,建议重测'
+      })
+    }
+  }
+  // 信号 2:得分极端 AND 主测与行为题人格不一致
+  const dimsExtreme = [
+    Math.abs(mainScore.A - mainScore.B) === 5,
+    Math.abs(mainScore.S - mainScore.L) === 5,
+    Math.abs(mainScore.C - mainScore.G) === 5,
+    Math.abs(mainScore.D - mainScore.F) === 5
+  ].filter(Boolean).length
+  if(dimsExtreme >= 4 && divergenceCount >= 1) warnings.push({
+    type:'anomalyPattern',
+    text:'⚠️ 你的答题模式接近随机/极端(主测全部满分一致,但行为题与之背离),结果仅供参考,建议重测'
+  })
+  return warnings
+}
+
+function calculateResult(answers, questions, timings){
   const qs = questions || defaultQuestions
   const score = sumScores(answers, qs)
 
@@ -64,6 +91,7 @@ function calculateResult(answers, questions){
   }
 
   const personality = getPersonality(code)
+  const validityWarnings = detectValidityWarnings(timings, mainScore, divergence.length)
   return {
     code,
     score,
@@ -75,6 +103,7 @@ function calculateResult(answers, questions){
     cognitiveCode: cognitiveCodeStr,
     behaviorCode: behaviorCodeStr,
     divergence,
+    validityWarnings,
     timestamp: Date.now()
   }
 }

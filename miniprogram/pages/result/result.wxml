@@ -10,6 +10,14 @@
   </view>
 
   <view class="page-scroll"><view class="safe">
+  <view wx:if="{{result.validityWarnings && result.validityWarnings.length}}" class="validity-banner">
+    <view class="validity-banner-ico">⚠</view>
+    <view class="validity-banner-body">
+      <view class="validity-banner-title">答题模式提示</view>
+      <view class="validity-banner-item" wx:for="{{result.validityWarnings}}" wx:key="type">· {{item.text}}</view>
+    </view>
+  </view>
+
   <view class="glass-card result-main">
     <view class="result-glow"></view>
     <view class="result-code">{{result.code}}</view>
@@ -60,7 +68,10 @@
   <view class="section-title">名人对照 · 你的交易导师</view>
   <view class="glass-card mentor-card" wx:if="{{p.mentor}}">
     <view class="mentor-head">
-      <view class="mentor-avatar">{{mentorInitial}}</view>
+      <view class="mentor-avatar {{mentorAvatar?'mentor-avatar-img-wrap':''}}">
+        <image wx:if="{{mentorAvatar}}" class="mentor-avatar-img" src="{{mentorAvatar}}" mode="aspectFill"/>
+        <text wx:else>{{mentorInitial}}</text>
+      </view>
       <view class="mentor-info">
         <view class="mentor-name">{{p.mentor.name}}</view>
         <view class="mentor-title">{{p.mentor.title}}</view>

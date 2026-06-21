@@ -1,6 +1,7 @@
 const { loadCanvasImage } = require('../../utils/canvasImage')
 const { openOfficialAccount } = require('../../utils/follow')
 const { getProfile, saveProfile, getDisplayName } = require('../../utils/userProfile')
+const { getMentorAvatar } = require('../../utils/mentorAvatar')
 
 const TRAIT_MAP = {
   A:{ ico:'📊', text:'分析型', canvasChar:'析' },
@@ -189,8 +190,78 @@ function drawUserBlock(ctx, W, y, opt){
   ctx.fillText(name, tx, cy)
 }
 
+function drawMentorCard(ctx, W, opt){
+  const { mentor, mentorAvatarImg } = opt
+  if(!mentor || !mentor.name) return
+  const mX = 70, mY = 410, mW = W - 140, mH = 110
+  const mgrad = ctx.createLinearGradient(mX, mY, mX + mW, mY + mH)
+  mgrad.addColorStop(0, 'rgba(247,198,106,0.22)')
+  mgrad.addColorStop(1, 'rgba(47,140,255,0.06)')
+  ctx.fillStyle = mgrad
+  roundRect(ctx, mX, mY, mW, mH, 22)
+  ctx.fill()
+  ctx.strokeStyle = 'rgba(247,198,106,0.42)'
+  ctx.lineWidth = 1
+  ctx.stroke()
+
+  // 左侧头像(若有)
+  let textCenterX = W / 2
+  if(mentorAvatarImg){
+    const r = 38
+    const cx = mX + 30 + r
+    const cy = mY + mH/2
+    // 金边
+    ctx.beginPath()
+    ctx.arc(cx, cy, r + 3, 0, Math.PI*2)
+    ctx.strokeStyle = '#f7c66a'
+    ctx.lineWidth = 2.5
+    ctx.shadowColor = 'rgba(247,198,106,0.55)'
+    ctx.shadowBlur = 14
+    ctx.stroke()
+    ctx.shadowBlur = 0
+    ctx.shadowColor = 'rgba(0,0,0,0)'
+    // 图像
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(cx, cy, r, 0, Math.PI*2)
+    ctx.clip()
+    // 放大裁剪源图,只取上中部头像区域(避开下方水印与边距)
+    const sw = mentorAvatarImg.width || 200
+    const sh = mentorAvatarImg.height || 200
+    // 紧裁源图头部区域,让头几乎贴满圆形(消除上方空白)
+    const sCropSize = Math.min(sw, sh) * 0.60
+    const sx = (sw - sCropSize) / 2
+    const sy = sh * 0.05
+    ctx.drawImage(mentorAvatarImg, sx, sy, sCropSize, sCropSize, cx - r, cy - r, r*2, r*2)
+    ctx.restore()
+    // 文字区右移居中
+    const textLeft = mX + 30 + r*2 + 20
+    const textRight = mX + mW - 20
+    textCenterX = (textLeft + textRight) / 2
+  }
+
+  // 顶部横排标签
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = '#9dccff'
+  ctx.font = '600 18px sans-serif'
+  ctx.fillText('—   同  类  导  师   —', textCenterX, mY + 22)
+
+  // 名字(长度自适应字号,避免超长撞边)
+  const nameStr = mentor.name || ''
+  const nameFs = nameStr.length > 9 ? 24 : (nameStr.length > 6 ? 28 : 34)
+  ctx.fillStyle = '#f7c66a'
+  ctx.font = `900 ${nameFs}px sans-serif`
+  ctx.fillText(nameStr, textCenterX, mY + 58)
+
+  // 头衔
+  ctx.fillStyle = '#dcecff'
+  ctx.font = '600 17px sans-serif'
+  ctx.fillText(mentor.title || '', textCenterX, mY + 90)
+}
+
 async function drawExportPoster(canvas, ctx, W, H, opt){
-  const { code, name, traitTags, scoreList, logoImg, qrImg, avatarImg, nickName } = opt
+  const { code, name, traitTags, scoreList, logoImg, qrImg, avatarImg, nickName, mentor, mentorAvatarImg } = opt
 
   // 背景
   const bg = ctx.createLinearGradient(0,0,0,H)
@@ -244,8 +315,11 @@ async function drawExportPoster(canvas, ctx, W, H, opt){
   ctx.font = '900 46px sans-serif'
   ctx.fillText(name, W/2, 362)
 
-  // 中段卡
-  const midX = 50, midY = 422, midW = W-100, midH = 460
+  // 同类导师卡(增加转发共鸣)
+  drawMentorCard(ctx, W, { mentor, mentorAvatarImg })
+
+  // 中段卡(因名人卡占位,下移)
+  const midX = 50, midY = 548, midW = W-100, midH = 440
   ctx.fillStyle = 'rgba(255,255,255,0.035)'
   roundRect(ctx, midX, midY, midW, midH, 22)
   ctx.fill()
@@ -277,7 +351,7 @@ async function drawExportPoster(canvas, ctx, W, H, opt){
   ctx.stroke()
 
   traitTags.forEach((t, i)=>{
-    const ry = ty + 64 + i*82
+    const ry = ty + 60 + i*78
     // 标签底
     const tagGrad = ctx.createLinearGradient(tx, ry, tx + 230, ry)
     tagGrad.addColorStop(0,'rgba(247,198,106,0.20)')
@@ -362,14 +436,17 @@ Page({
       setTimeout(()=>wx.reLaunch({ url:'/pages/intro/intro' }), 800)
       return
     }
-    const p = result.personality
     const code = result.code || ''
+    // 用 code 重新查最新 personality,避免 storage 里的旧人格数据
+    const { getPersonality } = require('../../utils/personalities')
+    const p = getPersonality(code) || result.personality
     const traitTags = code.split('').map(c => TRAIT_MAP[c]).filter(Boolean)
     const scoreList = Object.keys(p.scores||{}).map(k=>({ name:k, value:p.scores[k] })).sort((a,b)=>b.value-a.value).slice(0,5)
     const userProfile = getProfile()
     const displayName = getDisplayName(userProfile)
+    const mentorAvatar = p && p.mentor ? getMentorAvatar(p.mentor.name) : ''
     this.setData({
-      result, p, traitTags, scoreList, userProfile,
+      result, p, traitTags, scoreList, userProfile, mentorAvatar,
       avatarInitial: displayName.charAt(0)
     }, ()=>this.renderRadar(scoreList))
     this.preloadAssets()
@@ -503,7 +580,7 @@ Page({
         if(!res || !res[0] || !res[0].node) return reject('canvas not found')
         const canvas = res[0].node
         const ctx = canvas.getContext('2d')
-        const W = 750, H = 1400
+        const W = 750, H = 1500
         canvas.width = W * 2
         canvas.height = H * 2
         ctx.scale(2, 2)
@@ -512,7 +589,17 @@ Page({
           let logoImg = null
           let qrImg = null
           let avatarImg = null
+          let mentorAvatarImg = null
           const { avatarUrl, nickName } = this.data.userProfile || {}
+          const mentorAvatarSrc = this.data.mentorAvatar
+          if(mentorAvatarSrc){
+            try {
+              const mPath = await this.ensureAssetPath(mentorAvatarSrc)
+              mentorAvatarImg = await loadCanvasImage(canvas, mPath)
+            } catch(e){
+              console.warn('[poster] mentor avatar load fail', e)
+            }
+          }
           try {
             const logoPath = await this.ensureAssetPath('/assets/logo.png')
             logoImg = await loadCanvasImage(canvas, logoPath)
@@ -537,6 +624,8 @@ Page({
             name: this.data.p.name,
             traitTags: this.data.traitTags,
             scoreList: this.data.scoreList,
+            mentor: this.data.p.mentor,
+            mentorAvatarImg,
             logoImg, qrImg, avatarImg,
             nickName: getDisplayName(this.data.userProfile)
           })
@@ -593,8 +682,12 @@ Page({
   onShareAppMessage(){
     const code = (this.data.result||{}).code || 'ASGD'
     const name = (this.data.p||{}).name || ''
+    const mentor = ((this.data.p||{}).mentor||{}).name || ''
     const nick = (this.data.userProfile||{}).nickName || ''
     const who = nick && nick !== '交易者' ? nick : '我'
-    return { title:`${who}的交易DNA是 ${code} · ${name}`, path:'/pages/index/index' }
+    const title = mentor
+      ? `${who}的交易DNA是 ${code} · ${name},同类导师 ${mentor}`
+      : `${who}的交易DNA是 ${code} · ${name}`
+    return { title, path:'/pages/index/index' }
   }
 })
