@@ -1,0 +1,54 @@
+<view class="dna-page login-page"><view class="safe">
+  <view class="topbar">
+    <view class="brand">
+      <image class="logo-mini" src="/assets/logo.png"/>
+      <view><view class="brand-title">登录</view><view class="brand-sub">TradeDNA Login</view></view>
+    </view>
+    <view class="pill">测评前</view>
+  </view>
+
+  <view class="glass-card login-card">
+    <view class="eyebrow">STEP 1 · 认识你</view>
+    <view class="h1 small">开始之前，<text class="gold">先完善资料</text></view>
+    <view class="desc">登录后，你的测评结果会保存在「我的」里，随时回看报告；我们也会据此生成更贴合你的交易人格分析。</view>
+
+    <view class="login-profile">
+      <button class="login-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <view class="avatar-ring avatar-ring-lg">
+          <image wx:if="{{avatarUrl}}" class="login-avatar" src="{{avatarUrl}}" mode="aspectFill"/>
+          <view wx:else class="login-avatar login-avatar-ph">
+            <text class="login-avatar-plus">+</text>
+          </view>
+          <view class="avatar-edit-badge avatar-edit-badge-lg">
+            <text class="avatar-edit-ico">✎</text>
+          </view>
+        </view>
+      </button>
+      <view class="login-avatar-hint">点击头像设置</view>
+
+      <view class="login-field">
+        <view class="login-label">昵称</view>
+        <input
+          class="login-nick"
+          type="nickname"
+          placeholder="怎么称呼你"
+          placeholder-class="login-nick-ph"
+          value="{{nickName}}"
+          bindinput="onNicknameInput"
+          maxlength="16"
+        />
+      </view>
+    </view>
+
+    <view class="login-note">
+      <view class="list-item"><view class="dot"></view><view>头像和昵称只用于你的个人报告，不会公开展示给其他人</view></view>
+      <view class="list-item"><view class="dot"></view><view>不获取手机号，不涉及荐股，不读取你的交易账户</view></view>
+    </view>
+
+    <view class="btn-primary login-btn {{submitting ? 'btn-disabled' : ''}}" bindtap="submitLogin">
+      {{submitting ? '请稍候…' : '开始我的测评'}}
+    </view>
+  </view>
+
+  <view class="footer-note">你的信息仅用于 TradeDNA 测评与个人报告</view>
+</view></view>

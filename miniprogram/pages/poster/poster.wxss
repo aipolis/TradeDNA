@@ -1,0 +1,147 @@
+/* === 海报主卡 === */
+.poster-shell{
+  position:relative;margin-top:10rpx;padding:42rpx 38rpx 38rpx;
+  border-radius:38rpx;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(247,198,106,.22), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(47,140,255,.14), transparent 50%),
+    linear-gradient(180deg,#0d2238 0%,#08172a 55%,#040d18 100%);
+  border:1rpx solid rgba(247,198,106,.32);
+  box-shadow:0 30rpx 80rpx rgba(0,0,0,.55),inset 0 1rpx 0 rgba(255,255,255,.14);
+  overflow:hidden;
+}
+.poster-shell::before{
+  content:"";position:absolute;left:-10%;right:-10%;top:0;height:2rpx;
+  background:linear-gradient(90deg,transparent,#f7c66a 30%,#2f8cff 70%,transparent);
+}
+.poster-shell::after{
+  content:"";position:absolute;inset:18rpx;border-radius:30rpx;
+  border:1rpx solid rgba(247,198,106,.12);pointer-events:none;
+}
+
+.poster-eyebrow{
+  text-align:center;font-size:24rpx;letter-spacing:6rpx;color:#9dccff;
+  font-weight:600;margin-bottom:18rpx;
+}
+
+.poster-user{
+  display:flex;align-items:center;gap:22rpx;
+  margin-bottom:24rpx;padding:18rpx 20rpx;border-radius:24rpx;
+  background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1rpx solid rgba(247,198,106,.18);
+}
+.poster-avatar-btn{
+  position:relative;padding:0;margin:0;background:transparent;
+  border:none;line-height:1;flex-shrink:0;overflow:visible;
+}
+.poster-avatar-btn::after{border:none;}
+.avatar-ring{width:104rpx;height:104rpx;}
+.poster-user-avatar{
+  width:104rpx;height:104rpx;border-radius:50%;display:block;
+  border:3rpx solid #f7c66a;
+  box-shadow:0 0 20rpx rgba(247,198,106,.35);
+  background:#1a2a3d;
+}
+.poster-user-avatar-ph{
+  display:flex;align-items:center;justify-content:center;
+  font-size:40rpx;font-weight:900;color:#f7c66a;
+}
+.poster-user-meta{flex:1;min-width:0;}
+.poster-user-nick{
+  width:100%;font-size:34rpx;font-weight:900;color:#fff;
+  letter-spacing:.5rpx;height:48rpx;line-height:48rpx;
+}
+.poster-user-nick-ph{color:rgba(159,184,206,.65);font-weight:600;}
+
+.poster-id{
+  display:flex;flex-direction:column;align-items:center;
+  gap:12rpx;margin-bottom:30rpx;
+}
+.poster-code{
+  font-size:88rpx;font-weight:950;letter-spacing:8rpx;color:#f7c66a;
+  line-height:1;
+  /* 真机 WebView 大 shadowBlur 易渲染成白条 */
+  filter:drop-shadow(0 0 24rpx rgba(247,198,106,.45));
+}
+.poster-name{font-size:36rpx;font-weight:900;color:#fff;letter-spacing:1rpx;}
+
+/* === 中段：雷达 + 基质 === */
+.poster-mid{
+  display:flex;align-items:stretch;gap:18rpx;
+  padding:20rpx 14rpx;margin-bottom:24rpx;
+  border-radius:24rpx;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  border:1rpx solid rgba(247,198,106,.14);
+}
+.poster-radar{
+  flex:1.2;display:flex;align-items:center;justify-content:center;
+  background:#08172a;border-radius:16rpx;overflow:hidden;
+}
+.poster-radar-canvas{width:340rpx;height:340rpx;display:block;background:#08172a;}
+
+.poster-traits{flex:1;padding:8rpx 4rpx;display:flex;flex-direction:column;justify-content:center;gap:14rpx;}
+.poster-traits-title{
+  font-size:24rpx;color:#f7c66a;font-weight:800;letter-spacing:2rpx;
+  padding-bottom:10rpx;margin-bottom:6rpx;
+  border-bottom:1rpx solid rgba(247,198,106,.2);
+}
+.poster-trait{
+  display:flex;align-items:center;gap:14rpx;
+  padding:14rpx 16rpx;border-radius:18rpx;
+  background:linear-gradient(135deg,rgba(247,198,106,.14),rgba(47,140,255,.05));
+  border:1rpx solid rgba(247,198,106,.22);
+}
+.poster-trait-ico{
+  width:48rpx;height:48rpx;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#ffeaa3,#c98a2c);
+  font-size:24rpx;
+  box-shadow:0 0 14rpx rgba(247,198,106,.45);
+}
+.poster-trait-text{font-size:26rpx;font-weight:800;color:#ffe39a;letter-spacing:.5rpx;}
+
+/* === slogan === */
+.poster-slogan{text-align:center;margin:24rpx 0 28rpx;}
+.poster-slogan view{font-size:30rpx;font-weight:800;line-height:1.55;color:#dcecff;letter-spacing:1rpx;}
+.poster-slogan .gold{color:#f7c66a;}
+
+/* === footer：logo + QR === */
+.poster-footer{
+  display:flex;align-items:center;justify-content:space-between;gap:20rpx;
+  padding:24rpx 22rpx;border-radius:24rpx;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01));
+  border:1rpx solid rgba(247,198,106,.16);
+}
+.poster-brand{display:flex;align-items:center;gap:18rpx;}
+.poster-brand-logo{
+  width:80rpx;height:80rpx;border-radius:50%;
+  box-shadow:0 0 22rpx rgba(247,198,106,.55);
+}
+.poster-brand-name{font-size:30rpx;font-weight:900;color:#fff;letter-spacing:1rpx;}
+.poster-brand-sub{font-size:20rpx;color:#9dccff;margin-top:4rpx;letter-spacing:.4rpx;}
+
+.poster-qr{
+  width:140rpx;height:140rpx;border-radius:18rpx;padding:8rpx;
+  background:linear-gradient(135deg,#ffeaa3,#c98a2c);
+}
+.poster-qr-inner{
+  width:100%;height:100%;border-radius:12rpx;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  color:#0a1628;font-size:20rpx;font-weight:700;
+}
+.poster-qr-img{width:100%;height:100%;border-radius:12rpx;background:#fff;display:block;}
+
+.bottom-actions{margin-top:36rpx;}
+.poster-page .bottom-actions .btn-ghost,
+.poster-page .bottom-actions .btn-primary{
+  height:108rpx;
+  font-size:32rpx;
+  font-weight:900;
+  letter-spacing:2rpx;
+}
+.btn-disabled{opacity:.6;pointer-events:none;}
+.export-canvas{
+  position:fixed;left:0;top:0;
+  width:750px;height:1400px;
+  opacity:0;pointer-events:none;z-index:-1;
+}

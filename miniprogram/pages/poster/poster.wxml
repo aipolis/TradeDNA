@@ -1,0 +1,90 @@
+<view class="dna-page page-shell poster-page">
+  <view class="page-header">
+    <view class="topbar">
+      <view class="brand">
+        <image class="logo-mini" src="/assets/logo.png"/>
+        <view><view class="brand-title">生成专属海报</view><view class="brand-sub">TradeDNA Poster</view></view>
+      </view>
+      <view class="pill">可保存</view>
+    </view>
+  </view>
+
+  <view class="page-scroll"><view class="safe">
+  <view class="poster-shell">
+    <view class="poster-user">
+      <button class="poster-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <view class="avatar-ring">
+          <image wx:if="{{userProfile.avatarUrl}}" class="poster-user-avatar" src="{{userProfile.avatarUrl}}" mode="aspectFill"/>
+          <view wx:else class="poster-user-avatar poster-user-avatar-ph">{{avatarInitial}}</view>
+          <view class="avatar-edit-badge">
+            <text class="avatar-edit-ico">✎</text>
+          </view>
+        </view>
+      </button>
+      <view class="poster-user-meta">
+        <input
+          class="poster-user-nick"
+          type="nickname"
+          placeholder="点击填写昵称"
+          placeholder-class="poster-user-nick-ph"
+          value="{{userProfile.nickName}}"
+          bindinput="onNicknameInput"
+          bindblur="onNicknameBlur"
+          maxlength="16"
+        />
+      </view>
+    </view>
+
+    <view class="poster-eyebrow">我的交易DNA</view>
+
+    <view class="poster-id">
+      <view class="poster-code">{{result.code}}</view>
+      <view class="poster-name">{{p.name}}</view>
+    </view>
+
+    <view class="poster-mid">
+      <view class="poster-radar">
+        <canvas type="2d" id="posterRadar" class="poster-radar-canvas"></canvas>
+      </view>
+      <view class="poster-traits">
+        <view class="poster-traits-title">交易基质</view>
+        <view class="poster-trait" wx:for="{{traitTags}}" wx:key="text">
+          <view class="poster-trait-ico">{{item.ico}}</view>
+          <view class="poster-trait-text">{{item.text}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="poster-slogan">
+      <view>发现交易基因</view>
+      <view class="gold">找到最适合你的交易体系</view>
+    </view>
+
+    <view class="poster-footer">
+      <view class="poster-brand">
+        <image class="poster-brand-logo" src="/assets/logo.png"/>
+        <view class="poster-brand-text">
+          <view class="poster-brand-name">TradeDNA</view>
+          <view class="poster-brand-sub">交易DNA测评</view>
+        </view>
+      </view>
+      <view class="poster-qr" bindtap="followOfficial">
+        <image class="poster-qr-img" src="/assets/qrcode.jpg" mode="aspectFill" show-menu-by-longpress="{{true}}"/>
+      </view>
+    </view>
+    <view class="poster-follow-row">
+      <view class="btn-follow-oac poster-follow-btn" bindtap="followOfficial">+ 关注公众号「量化新手村」</view>
+      <view class="follow-qr-tip center">长按上方二维码可识别</view>
+    </view>
+  </view>
+
+  <view class="bottom-actions">
+    <button class="btn-ghost {{saving?'btn-disabled':''}}" bindtap="savePoster" disabled="{{saving}}" hover-class="none">{{saving?'生成中…':'保存到相册'}}</button>
+    <button class="btn-primary {{saving||sharing?'btn-disabled':''}}" bindtap="sharePoster" disabled="{{saving||sharing}}" hover-class="none">{{sharing?'生成中…':'分享好友'}}</button>
+  </view>
+
+  <!-- 离屏导出 canvas，用于生成真实海报图 -->
+  <canvas type="2d" id="exportCanvas" class="export-canvas"></canvas>
+  </view></view>
+  <tabbar active="mine"/>
+</view>

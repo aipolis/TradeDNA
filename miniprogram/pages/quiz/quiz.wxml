@@ -1,0 +1,33 @@
+<view class="dna-page"><view class="safe">
+  <view class="topbar">
+    <view class="brand">
+      <image class="logo-mini" src="/assets/logo.png"/>
+      <view><view class="brand-title">交易DNA测评</view><view class="brand-sub">TradeDNA Quiz</view></view>
+    </view>
+    <view class="pill">{{dimensionText}}</view>
+  </view>
+
+  <view class="progress-wrap">
+    <view class="progress-text">
+      <text>第 {{currentIndex+1}} / {{total}} 题</text>
+      <text>{{progress}}%</text>
+    </view>
+    <view class="progress-bar"><view class="progress-fill" style="width:{{progress}}%;"></view></view>
+  </view>
+
+  <view class="glass-card question-card">
+    <view class="q-index">QUESTION {{currentIndex+1}} · {{dimensionText}}</view>
+    <view class="q-title">{{question.text}}</view>
+    <block wx:for="{{question.options}}" wx:key="index">
+      <view class="option {{answers[currentIndex]===index?'active':''}}" bindtap="select" data-index="{{index}}">
+        <view class="option-key">{{index === 0 ? 'A' : 'B'}}</view>
+        <view class="option-text">{{item.text}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="bottom-actions">
+    <view class="btn-ghost" bindtap="prev">上一题</view>
+    <view class="btn-primary" bindtap="next">{{currentIndex === total-1 ? '生成报告' : '下一题'}}</view>
+  </view>
+</view><tabbar active="intro"/></view>

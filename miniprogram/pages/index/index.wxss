@@ -1,0 +1,56 @@
+/* === 首页顶部 logo 光晕 === */
+.index-page .brand .logo-mini{
+  border:1rpx solid rgba(255,224,140,.5);
+  box-shadow:
+    0 0 28rpx rgba(247,198,106,.7),
+    0 0 56rpx rgba(247,198,106,.28),
+    0 0 18rpx rgba(47,140,255,.4),
+    inset 0 0 22rpx rgba(247,198,106,.32);
+}
+.index-page .brand-title{
+  color:#fff;
+  text-shadow:0 0 18rpx rgba(247,198,106,.35);
+}
+.index-page .brand-sub{
+  margin-top:6rpx;
+  font-size:22rpx;
+  font-weight:700;
+  letter-spacing:1.6rpx;
+  color:#ffe39a;
+  text-shadow:0 0 14rpx rgba(247,198,106,.65),0 0 28rpx rgba(247,198,106,.28);
+}
+
+/* === DNA 动画区光晕 === */
+.index-page .dna-orb{
+  filter:drop-shadow(0 0 36rpx rgba(247,198,106,.42)) drop-shadow(0 0 72rpx rgba(47,140,255,.18));
+}
+.index-page .dna-orb-inner{
+  background:radial-gradient(circle,
+    rgba(80,170,255,.42) 0%,
+    rgba(247,198,106,.28) 42%,
+    rgba(255,220,120,.12) 58%,
+    transparent 76%);
+  box-shadow:
+    0 0 52rpx rgba(247,198,106,.55),
+    0 0 88rpx rgba(47,140,255,.32),
+    inset 0 0 44rpx rgba(247,198,106,.28);
+}
+.index-page .dna-orb-inner image{
+  border:2rpx solid rgba(255,228,150,.55);
+  box-shadow:
+    0 0 32rpx rgba(247,198,106,.85),
+    0 0 64rpx rgba(255,200,80,.4),
+    0 0 20rpx rgba(47,140,255,.35);
+}
+.index-page .dna-orb::before{
+  border:1rpx solid rgba(255,220,120,.48);
+  box-shadow:0 0 28rpx rgba(247,198,106,.45),inset 0 0 18rpx rgba(247,198,106,.18);
+}
+.index-page .dna-orb::after{
+  border:1rpx dashed rgba(90,180,255,.52);
+  box-shadow:0 0 24rpx rgba(47,140,255,.38);
+}
+
+.hero-main{padding:48rpx 38rpx 40rpx;text-align:left;}
+.hero-main .h1{margin-bottom:20rpx;}
+.hero-btn{margin-top:40rpx;}

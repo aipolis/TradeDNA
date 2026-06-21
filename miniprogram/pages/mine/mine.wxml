@@ -1,0 +1,90 @@
+<view class="dna-page page-shell mine-page">
+  <view class="page-header">
+    <view class="topbar">
+      <view class="brand">
+        <image class="logo-mini" src="/assets/logo.png"/>
+        <view><view class="brand-title">我的</view><view class="brand-sub">TradeDNA Profile</view></view>
+      </view>
+      <view class="pill">{{hasResult ? 'DNA 已生成' : '未测评'}}</view>
+    </view>
+  </view>
+
+  <view class="page-scroll"><view class="safe">
+  <view class="glass-card mine-hero">
+    <block wx:if="{{hasResult}}">
+      <view class="eyebrow">YOUR TRADING DNA</view>
+      <view class="result-code mine-code">{{result.code}}</view>
+      <view class="type-name">{{p.name}}</view>
+      <view class="badge">{{p.tag}}</view>
+      <view class="bottom-actions mine-actions">
+        <view class="btn-ghost" bindtap="retake">重新测评</view>
+        <view class="btn-primary" bindtap="viewReport">查看完整报告</view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="dna-orb mine-orb">
+        <view class="dna-orb-inner"><image src="/assets/logo.png" mode="aspectFill"/></view>
+      </view>
+      <view class="h1 small">还没有<text class="gold">交易基因</text></view>
+      <view class="desc">完成 25 题测评，生成你的专属 DNA 报告，找到最适合你的交易体系。</view>
+      <view class="btn-primary mine-start" bindtap="start">开始测评</view>
+    </block>
+  </view>
+
+  <view wx:if="{{hasDiff}}" class="glass-card diff-card">
+    <view class="diff-head">
+      <view class="diff-ico">🧬</view>
+      <view>
+        <view class="diff-title">你的 DNA 在演变</view>
+        <view class="diff-sub">相比上一次，{{diffList.length}} 个维度发生变化</view>
+      </view>
+    </view>
+    <view class="diff-row" wx:for="{{diffList}}" wx:key="dim">
+      <view class="diff-dim">{{item.dim}}</view>
+      <view class="diff-flow">
+        <text class="diff-from">{{item.from}}</text>
+        <text class="diff-arrow">→</text>
+        <text class="diff-to">{{item.to}}</text>
+      </view>
+    </view>
+  </view>
+
+  <block wx:if="{{history.length > 1}}">
+    <view class="section-title">测评历史 ({{historyCount}})</view>
+    <view class="glass-card list-card">
+      <view class="hist-row" wx:for="{{history}}" wx:key="timestamp">
+        <view class="hist-code">{{item.code}}</view>
+        <view class="hist-mid">
+          <view class="hist-name">{{item.name}}</view>
+          <view class="hist-time">{{item.timeText}}{{index === 0 ? ' · 最新' : ''}}</view>
+        </view>
+        <view class="hist-tag" wx:if="{{index === 0}}">现</view>
+      </view>
+    </view>
+  </block>
+
+  <view class="section-title">关于 TradeDNA</view>
+  <view class="glass-card list-card">
+    <view class="list-item"><view class="dot"></view><view>四维交易人格模型 · 16 种交易人格</view></view>
+    <view class="list-item"><view class="dot"></view><view>每种人格匹配一位对照交易导师</view></view>
+    <view class="list-item"><view class="dot"></view><view>非荐股工具 · 不提供个股买卖建议</view></view>
+    <view class="list-item"><view class="dot"></view><view>测评结果仅供自我认知参考</view></view>
+  </view>
+
+  <view class="section-title">关注「量化新手村」</view>
+  <view class="glass-card mine-follow">
+    <view class="desc">关注公众号领取人格深度解读长文；测评完成后回复你的 DNA 码即可。</view>
+    <view class="btn-follow-oac mine-follow-btn" bindtap="followOfficial">+ 关注公众号</view>
+    <view class="qr-box qr-img-box" bindtap="followOfficial">
+      <image class="qr-img" src="/assets/qrcode.jpg" mode="aspectFill" show-menu-by-longpress="{{true}}"/>
+    </view>
+    <view class="follow-qr-tip center">长按识别二维码 · 或点击按钮直接关注</view>
+    <view class="footer-note">散户量化转型纪实 · AI 辅助交易</view>
+  </view>
+
+  <view wx:if="{{historyCount > 0}}" class="mine-clear" bindtap="clearHistory">清除所有测评记录</view>
+
+  <view class="footer-note">TradeDNA v1.0 · 发现你的交易基因</view>
+  </view></view>
+  <tabbar active="mine"/>
+</view>

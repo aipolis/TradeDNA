@@ -1,0 +1,48 @@
+<view class="dna-page"><view class="safe">
+  <view class="topbar">
+    <view class="brand">
+      <image class="logo-mini" src="/assets/logo.png"/>
+      <view><view class="brand-title">测评说明</view><view class="brand-sub">TradeDNA V1 Model</view></view>
+    </view>
+    <view class="pill blue">非荐股</view>
+  </view>
+
+  <view class="glass-card intro-hero">
+    <view class="eyebrow">UNDERSTAND YOURSELF</view>
+    <view class="h1 small">了解你的<text class="gold">交易基因</text></view>
+    <view class="desc">我们从 4 个维度刻画你的交易性格，生成专属 DNA 代码，匹配最适合你的交易体系。</view>
+  </view>
+
+  <view class="dim-grid">
+    <view class="dim-card">
+      <view class="dim-ico">🧠</view>
+      <view class="dim-title">决策方式</view>
+      <view class="dim-sub">分析驱动 vs 直觉盘感</view>
+    </view>
+    <view class="dim-card">
+      <view class="dim-ico">⏱</view>
+      <view class="dim-title">交易周期</view>
+      <view class="dim-sub">短线博弈 vs 长线持有</view>
+    </view>
+    <view class="dim-card">
+      <view class="dim-ico">🛡</view>
+      <view class="dim-title">风险偏好</view>
+      <view class="dim-sub">保守防御 vs 进取爆发</view>
+    </view>
+    <view class="dim-card">
+      <view class="dim-ico">⚡</view>
+      <view class="dim-title">执行能力</view>
+      <view class="dim-sub">纪律严格 vs 灵活机动</view>
+    </view>
+  </view>
+
+  <view class="section-title">测评会输出</view>
+  <view class="glass-card list-card">
+    <view class="list-item"><view class="check">1</view><view>4 位交易 DNA 代码，例如 <text class="gold">ASGD</text></view></view>
+    <view class="list-item"><view class="check">2</view><view>16 种交易人格之一，例如 量化猎手</view></view>
+    <view class="list-item"><view class="check">3</view><view>优势、风险与适配的交易体系</view></view>
+  </view>
+
+  <view class="btn-primary intro-btn" bindtap="go">开始测评</view>
+  <view class="footer-note">25 题 · 约 5 分钟 · 16 种人格</view>
+</view><tabbar active="intro"/></view>

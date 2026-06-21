@@ -1,0 +1,16 @@
+<view class="tabbar-wrap">
+  <view class="tabbar">
+    <view class="tab-item {{active==='index'?'on':''}}" bindtap="go" data-key="index">
+      <view class="tab-ico">🏠</view>
+      <view class="tab-text">首页</view>
+    </view>
+    <view class="tab-item {{active==='intro'?'on':''}}" bindtap="go" data-key="intro">
+      <view class="tab-ico tab-ico-mid">🧬</view>
+      <view class="tab-text">测评</view>
+    </view>
+    <view class="tab-item {{active==='mine'?'on':''}}" bindtap="go" data-key="mine">
+      <view class="tab-ico">👤</view>
+      <view class="tab-text">我的</view>
+    </view>
+  </view>
+</view>

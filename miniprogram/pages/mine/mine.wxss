@@ -1,0 +1,66 @@
+.mine-hero{padding:48rpx 34rpx 38rpx;text-align:center;}
+.mine-code{font-size:96rpx;margin:8rpx 0;}
+.mine-actions{margin-top:40rpx;}
+.mine-actions .btn-primary,
+.mine-actions .btn-ghost{height:108rpx;}
+.mine-orb{width:360rpx;height:360rpx;margin:0 auto 24rpx;}
+.mine-orb .dna-orb-inner{width:240rpx;height:240rpx;}
+.mine-orb .dna-orb-inner image{width:200rpx;height:200rpx;}
+.mine-start{margin-top:34rpx;}
+.mine-follow{padding:32rpx 30rpx;text-align:center;}
+.mine-follow .qr-box{margin:24rpx auto 14rpx;}
+.qr-img-box{padding:8rpx;}
+.qr-img{width:100%;height:100%;border-radius:18rpx;display:block;}
+
+/* === DNA 演变卡 === */
+.diff-card{
+  margin-top:24rpx;padding:28rpx;
+  background:linear-gradient(135deg,rgba(47,140,255,.14),rgba(247,198,106,.06));
+  border:1rpx solid rgba(47,140,255,.42);
+}
+.diff-head{display:flex;align-items:flex-start;gap:18rpx;margin-bottom:18rpx;}
+.diff-ico{
+  width:56rpx;height:56rpx;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:30rpx;
+  background:linear-gradient(135deg,#9dccff,#2f8cff);
+  box-shadow:0 0 14rpx rgba(47,140,255,.5);
+}
+.diff-title{font-size:30rpx;font-weight:900;color:#9dccff;letter-spacing:.5rpx;}
+.diff-sub{font-size:23rpx;color:#dcecff;margin-top:8rpx;}
+.diff-row{
+  display:flex;align-items:center;gap:18rpx;
+  padding:14rpx 16rpx;margin-top:10rpx;border-radius:18rpx;
+  background:rgba(255,255,255,.04);border:1rpx solid rgba(255,255,255,.06);
+}
+.diff-dim{font-size:24rpx;color:#9dccff;font-weight:700;min-width:90rpx;}
+.diff-flow{flex:1;display:flex;align-items:center;gap:14rpx;font-size:26rpx;font-weight:800;}
+.diff-from{color:#7692ad;}
+.diff-arrow{color:#f7c66a;}
+.diff-to{color:#ffe39a;}
+
+/* === 历史行 === */
+.hist-row{
+  display:flex;align-items:center;gap:20rpx;
+  padding:18rpx 4rpx;border-bottom:1rpx solid rgba(255,255,255,.05);
+}
+.hist-row:last-child{border-bottom:none;}
+.hist-code{
+  font-size:36rpx;font-weight:900;color:#f7c66a;letter-spacing:3rpx;
+  min-width:130rpx;
+  text-shadow:0 0 12rpx rgba(247,198,106,.4);
+}
+.hist-mid{flex:1;min-width:0;}
+.hist-name{font-size:28rpx;font-weight:800;color:#fff;}
+.hist-time{font-size:22rpx;color:#8fb0d0;margin-top:6rpx;letter-spacing:.4rpx;}
+.hist-tag{
+  font-size:22rpx;color:#1a1208;font-weight:900;
+  padding:6rpx 16rpx;border-radius:999rpx;
+  background:linear-gradient(135deg,#ffeaa3,#c98a2c);
+}
+
+/* === 清除入口 === */
+.mine-clear{
+  margin-top:36rpx;padding:24rpx;text-align:center;
+  font-size:24rpx;color:#7692ad;letter-spacing:.5rpx;
+}
+.mine-clear:active{color:#e0644f;}

@@ -1,0 +1,2 @@
+.question-card{margin-top:8rpx;}
+.bottom-actions .btn-primary,.bottom-actions .btn-ghost{height:96rpx;}

@@ -1,0 +1,42 @@
+.login-page{padding-bottom:calc(80rpx + env(safe-area-inset-bottom));}
+.login-card{padding:40rpx 34rpx 36rpx;margin-top:20rpx;}
+.login-profile{
+  margin:36rpx 0 28rpx;padding:28rpx 24rpx;border-radius:24rpx;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border:1rpx solid rgba(247,198,106,.16);
+}
+.login-avatar-btn{
+  position:relative;display:block;width:168rpx;height:168rpx;
+  margin:0 auto 12rpx;padding:0;background:transparent;border:none;
+  overflow:visible;
+}
+.login-avatar-btn::after{border:none;}
+.login-avatar{
+  width:168rpx;height:168rpx;border-radius:50%;display:block;
+  border:4rpx solid #f7c66a;
+  box-shadow:0 0 24rpx rgba(247,198,106,.35);
+  background:#1a2a3d;
+}
+.login-avatar-ph{
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,rgba(247,198,106,.12),rgba(47,140,255,.08));
+}
+.login-avatar-plus{
+  font-size:56rpx;font-weight:300;color:rgba(247,198,106,.75);line-height:1;
+}
+.login-avatar-hint{
+  text-align:center;font-size:22rpx;color:#8fa8c4;
+  margin-bottom:28rpx;letter-spacing:.5rpx;
+}
+.login-label{font-size:22rpx;color:#9dccff;margin-bottom:12rpx;font-weight:700;}
+.login-avatar-tip{display:none;}
+.login-field{margin-top:8rpx;}
+.login-nick{
+  height:88rpx;padding:0 24rpx;border-radius:18rpx;
+  background:rgba(255,255,255,.06);border:1rpx solid rgba(247,198,106,.22);
+  color:#fff;font-size:30rpx;font-weight:700;
+}
+.login-nick-ph{color:rgba(159,184,206,.6);font-weight:600;}
+.login-note{margin-bottom:28rpx;}
+.login-btn{margin-top:8rpx;}
+.btn-disabled{opacity:.65;pointer-events:none;}
