@@ -258,7 +258,7 @@ button.btn-ghost::after{border:none;}
   padding-top:16rpx;border-top:1rpx solid rgba(255,255,255,.08);
 }
 
-/* === 长页固定顶栏（结果 / 我的 / 海报） === */
+/* === 长页固定顶栏（首页 / 测评说明 / 结果 / 我的 / 海报） === */
 .page-shell{
   padding:0;
   padding-bottom:calc(168rpx + env(safe-area-inset-bottom));

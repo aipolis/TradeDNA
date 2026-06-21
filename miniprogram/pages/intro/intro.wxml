@@ -1,12 +1,15 @@
-<view class="dna-page"><view class="safe">
-  <view class="topbar">
-    <view class="brand">
-      <image class="logo-mini" src="/assets/logo.png"/>
-      <view><view class="brand-title">测评说明</view><view class="brand-sub">TradeDNA V1 Model</view></view>
+<view class="dna-page page-shell intro-page">
+  <view class="page-header">
+    <view class="topbar">
+      <view class="brand">
+        <image class="logo-mini" src="/assets/logo.png"/>
+        <view><view class="brand-title">测评说明</view><view class="brand-sub">TradeDNA V1 Model</view></view>
+      </view>
+      <view class="pill blue">非荐股</view>
     </view>
-    <view class="pill blue">非荐股</view>
   </view>
 
+  <view class="page-scroll"><view class="safe">
   <view class="glass-card intro-hero">
     <view class="eyebrow">UNDERSTAND YOURSELF</view>
     <view class="h1 small">了解你的<text class="gold">交易基因</text></view>
@@ -45,4 +48,6 @@
 
   <view class="btn-primary intro-btn" bindtap="go">开始测评</view>
   <view class="footer-note">25 题 · 约 5 分钟 · 16 种人格</view>
-</view><tabbar active="intro"/></view>
+  </view></view>
+  <tabbar active="intro"/>
+</view>

@@ -55,21 +55,6 @@ Page({
     const cx = W/2, cy = H/2
     const pulse = 0.82 + 0.18 * Math.sin(t * 2.2)
 
-    const halo = ctx.createRadialGradient(cx,cy,30,cx,cy,W/2)
-    halo.addColorStop(0,'rgba(255,220,120,0.38)')
-    halo.addColorStop(0.32,'rgba(247,198,106,0.28)')
-    halo.addColorStop(0.55,'rgba(47,140,255,0.20)')
-    halo.addColorStop(1,'rgba(0,0,0,0)')
-    ctx.fillStyle = halo
-    ctx.fillRect(0,0,W,H)
-
-    const halo2 = ctx.createRadialGradient(cx,cy,W*0.08,cx,cy,W*0.48)
-    halo2.addColorStop(0,'rgba(255,240,180,0.12)')
-    halo2.addColorStop(0.6,'rgba(247,198,106,0.06)')
-    halo2.addColorStop(1,'rgba(0,0,0,0)')
-    ctx.fillStyle = halo2
-    ctx.fillRect(0,0,W,H)
-
     const N = 36
     const amp = W*0.22
     const len = W*0.66
