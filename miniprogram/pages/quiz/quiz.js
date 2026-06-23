@@ -1,11 +1,9 @@
 const { questions: rawQuestions } = require('../../utils/questions')
 const { shuffleQuestions } = require('../../utils/shuffle')
 const { calculateResult } = require('../../utils/scoring')
+const { QUIZ_DIM } = require('../../utils/dimensions')
 
-const dimensionMap = {
-  decision:'决策方式', cycle:'交易周期', risk:'风险偏好',
-  execution:'执行能力', behavior:'行为情境'
-}
+const dimensionMap = QUIZ_DIM
 const PROGRESS_KEY = 'tradeDNAProgress'
 const PROGRESS_TTL = 7 * 24 * 60 * 60 * 1000 // 7 天
 

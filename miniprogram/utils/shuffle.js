@@ -19,7 +19,7 @@ function shuffleOptions(q){
 }
 
 function shuffleQuestions(questions){
-  const mainOrder = ['decision','cycle','risk','execution']
+  const mainOrder = ['information','emotion','risk','execution']
   const groups = {}
   const behaviorGroup = []
   questions.forEach(q=>{

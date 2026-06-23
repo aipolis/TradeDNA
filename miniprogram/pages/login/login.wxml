@@ -42,7 +42,6 @@
 
     <view class="login-note">
       <view class="list-item"><view class="dot"></view><view>头像和昵称只用于你的个人报告，不会公开展示给其他人</view></view>
-      <view class="list-item"><view class="dot"></view><view>不获取手机号，不涉及荐股，不读取你的交易账户</view></view>
     </view>
 
     <view class="btn-primary login-btn {{submitting ? 'btn-disabled' : ''}}" bindtap="submitLogin">

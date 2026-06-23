@@ -65,7 +65,7 @@
 
   <view class="section-title">关于 TradeDNA</view>
   <view class="glass-card list-card">
-    <view class="list-item"><view class="dot"></view><view>四维交易人格模型 · 16 种交易人格</view></view>
+    <view class="list-item"><view class="dot"></view><view>信息驱动 × 情绪反应 × 风险偏好 × 执行能力 · 16 种人格</view></view>
     <view class="list-item"><view class="dot"></view><view>每种人格匹配一位对照交易导师</view></view>
     <view class="list-item"><view class="dot"></view><view>非荐股工具 · 不提供个股买卖建议</view></view>
     <view class="list-item"><view class="dot"></view><view>测评结果仅供自我认知参考</view></view>

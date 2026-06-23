@@ -30,8 +30,8 @@
     <view class="divergence-head">
       <view class="divergence-ico">⚠</view>
       <view>
-        <view class="divergence-title">认知与行为的背离</view>
-        <view class="divergence-sub">你的自我认知是 <text class="gold">{{result.cognitiveCode}}</text>，但行为模式更接近 <text class="gold">{{result.behaviorCode}}</text></view>
+        <view class="divergence-title">主测与行为的背离</view>
+        <view class="divergence-sub">主测结果是 <text class="gold">{{result.cognitiveCode}}</text>，行为题表现更接近 <text class="gold">{{result.behaviorCode}}</text></view>
       </view>
     </view>
     <view class="divergence-row" wx:for="{{result.divergence}}" wx:key="dimension">
@@ -42,7 +42,7 @@
         <text class="divergence-beh">{{item.behavior}}</text>
       </view>
     </view>
-    <view class="divergence-note">「你认为自己怎么想」与「你实际怎么做」之间存在差异。这种差异本身不是错误，但值得在复盘时多关注。</view>
+    <view class="divergence-note">「主测答题」与「行为情境题」之间存在差异。这本身不是错误，但值得在复盘时多关注。</view>
   </view>
 
   <view class="section-title">交易体系匹配雷达</view>
@@ -65,20 +65,30 @@
     </view>
   </view>
 
-  <view class="section-title">名人对照 · 你的交易导师</view>
-  <view class="glass-card mentor-card" wx:if="{{p.mentor}}">
-    <view class="mentor-head">
-      <view class="mentor-avatar {{mentorAvatar?'mentor-avatar-img-wrap':''}}">
-        <image wx:if="{{mentorAvatar}}" class="mentor-avatar-img" src="{{mentorAvatar}}" mode="aspectFill"/>
-        <text wx:else>{{mentorInitial}}</text>
+  <view class="section-title" wx:if="{{mentorList.length || p.mentorEmpty}}">名人对照 · 你的交易导师</view>
+
+  <!-- 多导师列表 -->
+  <block wx:if="{{mentorList.length}}">
+    <view class="glass-card mentor-card" wx:for="{{mentorList}}" wx:key="name">
+      <view class="mentor-head">
+        <view class="mentor-avatar {{item.avatar?'mentor-avatar-img-wrap':''}}">
+          <image wx:if="{{item.avatar}}" class="mentor-avatar-img" src="{{item.avatar}}" mode="aspectFill"/>
+          <text wx:else>{{item.initial}}</text>
+        </view>
+        <view class="mentor-info">
+          <view class="mentor-name">{{item.name}}</view>
+          <view class="mentor-title">{{item.title}}</view>
+        </view>
       </view>
-      <view class="mentor-info">
-        <view class="mentor-name">{{p.mentor.name}}</view>
-        <view class="mentor-title">{{p.mentor.title}}</view>
-      </view>
+      <view class="mentor-bio">{{item.bio}}</view>
+      <view class="mentor-quote">「{{item.lesson}}」</view>
     </view>
-    <view class="mentor-bio">{{p.mentor.bio}}</view>
-    <view class="mentor-quote">「{{p.mentor.lesson}}」</view>
+  </block>
+
+  <!-- XECF：无导师的警醒文案 -->
+  <view class="glass-card mentor-card mentor-empty-card" wx:elif="{{p.mentorEmpty}}">
+    <view class="mentor-empty-title">{{p.mentorEmpty.title}}</view>
+    <view class="mentor-empty-body">{{p.mentorEmpty.body}}</view>
   </view>
 
   <view class="section-title">核心特性</view>
@@ -115,7 +125,7 @@
     </view>
   </view>
 
-  <view class="section-title">四维解析</view>
+  <view class="section-title">DNA 四维解析</view>
   <view class="glass-card dim4-card">
     <view class="dim4-row" wx:for="{{dim4}}" wx:key="name">
       <view class="dim4-top"><text>{{item.name}}</text><text class="dim4-tag">{{item.tag}} · {{item.pct}}%</text></view>

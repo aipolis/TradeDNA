@@ -18,7 +18,7 @@
   <view class="hero-card hero-main">
     <view class="eyebrow">TRADING PERSONALITY TEST</view>
     <view class="h1">发现你的<text class="gold">交易基因</text></view>
-    <view class="desc">找到最适合你的交易体系。先别急着寻找圣杯，先理解自己的决策、风险、周期和执行方式。</view>
+    <view class="desc">找到最适合你的交易体系。先别急着寻找圣杯，先理解自己的信息驱动、情绪反应、风险偏好与执行方式。</view>
     <view class="btn-primary hero-btn" bindtap="start">开始测评</view>
     <view class="stat-row">
       <view class="stat"><view class="stat-num">25</view><view class="stat-label">道题目</view></view>

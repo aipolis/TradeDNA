@@ -1,8 +1,9 @@
 const { questions: defaultQuestions } = require('./questions')
 const { getPersonality } = require('./personalities')
+const { DIM_META, poleLabel } = require('./dimensions')
 
 function sumScores(answers, questions){
-  const score = { A:0, B:0, S:0, L:0, C:0, G:0, D:0, F:0 }
+  const score = { R:0, X:0, T:0, E:0, C:0, G:0, D:0, F:0 }
   answers.forEach((selectedIndex, i)=>{
     const q = questions[i]
     if(!q || selectedIndex === undefined || selectedIndex === null) return
@@ -15,10 +16,10 @@ function sumScores(answers, questions){
 
 function deriveCode(score){
   return {
-    decision:  score.A >= score.B ? 'A' : 'B',
-    cycle:     score.S >= score.L ? 'S' : 'L',
-    risk:      score.C >= score.G ? 'C' : 'G',
-    execution: score.D >= score.F ? 'D' : 'F'
+    information: score.R >= score.X ? 'R' : 'X',
+    emotion:     score.T >= score.E ? 'T' : 'E',
+    risk:        score.C >= score.G ? 'C' : 'G',
+    execution:   score.D >= score.F ? 'D' : 'F'
   }
 }
 
@@ -37,8 +38,8 @@ function detectValidityWarnings(timings, mainScore, divergenceCount){
   }
   // 信号 2:得分极端 AND 主测与行为题人格不一致
   const dimsExtreme = [
-    Math.abs(mainScore.A - mainScore.B) === 5,
-    Math.abs(mainScore.S - mainScore.L) === 5,
+    Math.abs(mainScore.R - mainScore.X) === 5,
+    Math.abs(mainScore.T - mainScore.E) === 5,
     Math.abs(mainScore.C - mainScore.G) === 5,
     Math.abs(mainScore.D - mainScore.F) === 5
   ].filter(Boolean).length
@@ -66,25 +67,26 @@ function calculateResult(answers, questions, timings){
   const cognitiveCode = deriveCode(mainScore)
   const behaviorCode  = behaviorAnswers.length ? deriveCode(behaviorScore) : null
 
-  const code = totalCode.decision + totalCode.cycle + totalCode.risk + totalCode.execution
-  const cognitiveCodeStr = cognitiveCode.decision + cognitiveCode.cycle + cognitiveCode.risk + cognitiveCode.execution
-  const behaviorCodeStr = behaviorCode ? (behaviorCode.decision + behaviorCode.cycle + behaviorCode.risk + behaviorCode.execution) : null
+  const code = totalCode.information + totalCode.emotion + totalCode.risk + totalCode.execution
+  const cognitiveCodeStr = cognitiveCode.information + cognitiveCode.emotion + cognitiveCode.risk + cognitiveCode.execution
+  const behaviorCodeStr = behaviorCode ? (behaviorCode.information + behaviorCode.emotion + behaviorCode.risk + behaviorCode.execution) : null
 
   // 计算认知 vs 行为的背离维度
   const divergence = []
   if(behaviorCode){
-    const dimNames = { decision:'决策方式', cycle:'交易周期', risk:'风险偏好', execution:'执行能力' }
-    const labels = {
-      A:'分析型', B:'盘感型', S:'短线型', L:'长线型',
-      C:'保守型', G:'进攻型', D:'纪律型', F:'灵活型'
+    const dimNames = {
+      information: DIM_META.information.name,
+      emotion: DIM_META.emotion.name,
+      risk: DIM_META.risk.name,
+      execution: DIM_META.execution.name
     }
     Object.keys(cognitiveCode).forEach(dim=>{
       if(cognitiveCode[dim] !== behaviorCode[dim]){
         divergence.push({
           dimension: dim,
           dimName: dimNames[dim],
-          cognitive: labels[cognitiveCode[dim]],
-          behavior: labels[behaviorCode[dim]]
+          cognitive: poleLabel(cognitiveCode[dim]),
+          behavior: poleLabel(behaviorCode[dim])
         })
       }
     })
@@ -95,10 +97,10 @@ function calculateResult(answers, questions, timings){
   return {
     code,
     score,
-    decision: totalCode.decision,
-    cycle: totalCode.cycle,
-    risk: totalCode.risk,
-    execution: totalCode.execution,
+    information: totalCode.information,
+    emotion:     totalCode.emotion,
+    risk:        totalCode.risk,
+    execution:   totalCode.execution,
     personality,
     cognitiveCode: cognitiveCodeStr,
     behaviorCode: behaviorCodeStr,

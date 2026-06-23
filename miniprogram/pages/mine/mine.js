@@ -1,19 +1,16 @@
 const { openOfficialAccount } = require('../../utils/follow')
+const { DIFF_DIMS, poleLabel } = require('../../utils/dimensions')
 
 function diffCodes(latest, prev){
   if(!latest || !prev) return []
-  const labels = {
-    A:'分析型', B:'盘感型', S:'短线型', L:'长线型',
-    C:'保守型', G:'进攻型', D:'纪律型', F:'灵活型'
-  }
-  const dims = ['决策','周期','风险','执行']
+  const dims = DIFF_DIMS
   const out = []
   for(let i=0;i<4;i++){
     if(latest[i] !== prev[i]){
       out.push({
         dim: dims[i],
-        from: labels[prev[i]] || prev[i],
-        to: labels[latest[i]] || latest[i]
+        from: poleLabel(prev[i]) || prev[i],
+        to: poleLabel(latest[i]) || latest[i]
       })
     }
   }

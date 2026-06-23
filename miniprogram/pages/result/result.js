@@ -1,18 +1,14 @@
 const { calculateResult } = require('../../utils/scoring')
 const { openOfficialAccount } = require('../../utils/follow')
+const { DIM_META } = require('../../utils/dimensions')
 
-const dimMeta = {
-  decision:{ name:'决策方式', A:'分析派', B:'盘感派', keys:['A','B'] },
-  cycle:{ name:'交易周期', S:'短线', L:'长线', keys:['S','L'] },
-  risk:{ name:'风险偏好', C:'保守', G:'进取', keys:['C','G'] },
-  execution:{ name:'执行能力', D:'纪律', F:'灵活', keys:['D','F'] }
-}
+const dimMeta = DIM_META
 
 function buildDim4(score, result){
   const out = []
   const pairs = [
-    ['decision','A','B'],
-    ['cycle','S','L'],
+    ['information','R','X'],
+    ['emotion','T','E'],
     ['risk','C','G'],
     ['execution','D','F']
   ]
@@ -121,7 +117,7 @@ function drawRadar(ctx, w, h, scoreList){
 }
 
 Page({
-  data:{ result:{code:'ASGD'}, p:{}, scoreList:[], dim4:[] },
+  data:{ result:{code:'RTGD'}, p:{}, scoreList:[], dim4:[], mentorList:[] },
   onLoad(){
     const result = wx.getStorageSync('tradeDNAResult')
     if(!result || !result.code){
@@ -135,9 +131,16 @@ Page({
     result.personality = p
     const scoreList = Object.keys(p.scores).map(k=>({ name:k, value:p.scores[k] })).sort((a,b)=>b.value-a.value)
     const dim4 = buildDim4(result.score||{}, result)
-    const mentorInitial = p.mentor && p.mentor.name ? p.mentor.name.charAt(0) : ''
-    const mentorAvatar = p.mentor ? require('../../utils/mentorAvatar').getMentorAvatar(p.mentor.name) : ''
-    this.setData({ result, p, scoreList, dim4, mentorInitial, mentorAvatar }, ()=>this.renderRadar(scoreList))
+    const { getMentorAvatar } = require('../../utils/mentorAvatar')
+    const mentorList = (p.mentors||[]).map(m=>({
+      name: m.name,
+      title: m.title,
+      bio: m.bio,
+      lesson: m.lesson,
+      avatar: getMentorAvatar(m.name),
+      initial: m.name ? m.name.charAt(0) : ''
+    }))
+    this.setData({ result, p, scoreList, dim4, mentorList }, ()=>this.renderRadar(scoreList))
   },
   renderRadar(scoreList){
     const tryRender = (attempt)=>{
@@ -169,7 +172,7 @@ Page({
   poster(){ wx.navigateTo({ url:'/pages/poster/poster' }) },
   followOfficial(){ openOfficialAccount() },
   onShareAppMessage(){
-    const code = (this.data.result||{}).code || 'ASGD'
+    const code = (this.data.result||{}).code || 'RTGD'
     const name = (this.data.p||{}).name || ''
     return { title:`我的交易DNA是 ${code} · ${name}`, path:'/pages/index/index' }
   }

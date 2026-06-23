@@ -386,6 +386,18 @@ button.btn-ghost::after{border:none;}
   border-left:4rpx solid #f7c66a;
   font-size:26rpx;line-height:1.65;color:#ffe39a;font-weight:600;font-style:italic;
 }
+.mentor-card + .mentor-card{margin-top:24rpx;}
+.mentor-empty-card{
+  border:2rpx dashed rgba(247,198,106,.45);
+  background:linear-gradient(135deg,rgba(247,198,106,.06),rgba(47,140,255,.04));
+}
+.mentor-empty-title{
+  font-size:30rpx;font-weight:900;color:#ffd49a;letter-spacing:.5rpx;
+  text-align:center;padding:6rpx 0 18rpx;
+}
+.mentor-empty-body{
+  font-size:26rpx;color:#dcecff;line-height:1.85;white-space:pre-line;
+}
 
 /* === 海报卡 === */
 .poster-card{width:640rpx;margin:0 auto;padding:48rpx 36rpx;border-radius:42rpx;text-align:center;}

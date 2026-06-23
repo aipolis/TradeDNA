@@ -2,17 +2,9 @@ const { loadCanvasImage } = require('../../utils/canvasImage')
 const { openOfficialAccount } = require('../../utils/follow')
 const { getProfile, saveProfile, getDisplayName } = require('../../utils/userProfile')
 const { getMentorAvatar } = require('../../utils/mentorAvatar')
+const { TRAIT_TAG } = require('../../utils/dimensions')
 
-const TRAIT_MAP = {
-  A:{ ico:'📊', text:'分析型', canvasChar:'析' },
-  B:{ ico:'👁', text:'盘感型', canvasChar:'感' },
-  S:{ ico:'⚡', text:'短线型', canvasChar:'短' },
-  L:{ ico:'🌳', text:'长线型', canvasChar:'长' },
-  C:{ ico:'🛡', text:'保守型', canvasChar:'守' },
-  G:{ ico:'⚔', text:'进攻型', canvasChar:'进' },
-  D:{ ico:'📏', text:'纪律型', canvasChar:'律' },
-  F:{ ico:'🦋', text:'灵活型', canvasChar:'活' }
-}
+const TRAIT_MAP = TRAIT_TAG
 
 // 与 poster-shell 中段底色一致；真机 Canvas 2D 无透明通道，不能用 clearRect
 const RADAR_BG = '#08172a'
@@ -424,7 +416,7 @@ async function drawExportPoster(canvas, ctx, W, H, opt){
 
 Page({
   data:{
-    result:{code:'ASGD'}, p:{}, traitTags:[], scoreList:[],
+    result:{code:'RTGD'}, p:{}, traitTags:[], scoreList:[],
     userProfile:{ avatarUrl:'', nickName:'交易者' },
     avatarInitial:'交', saving:false, sharing:false
   },
@@ -680,7 +672,7 @@ Page({
   },
 
   onShareAppMessage(){
-    const code = (this.data.result||{}).code || 'ASGD'
+    const code = (this.data.result||{}).code || 'RTGD'
     const name = (this.data.p||{}).name || ''
     const mentor = ((this.data.p||{}).mentor||{}).name || ''
     const nick = (this.data.userProfile||{}).nickName || ''

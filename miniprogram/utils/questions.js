@@ -1,107 +1,107 @@
 /**
- * TradeDNA 题库 V2.0
+ * TradeDNA 题库 V3.0（四维改造方案）
+ *
+ * V3 维度替换：
+ *   - 决策方式 A/B → 信息驱动 R/X（自主研究 / 跟随外部）
+ *   - 交易周期 S/L → 情绪反应 T/E（稳态 / 情绪型）
+ *   - 风险偏好 C/G 保留
+ *   - 执行能力 D/F 保留（F 由"灵活"修订为"机会驱动/随机应变"）
  *
  * 设计原则：
  *   1. 强制选择(ipsative)格式：两个选项都是合理的交易风格，没有明显优劣
  *   2. 去社会期许偏差：不让某一侧听起来"更专业/更聪明/更有纪律"
- *   3. 场景化优于抽象自我描述：行为题用具体情境，减少自我美化
+ *   3. 场景化优于抽象自我描述
  *
- * 学术框架参考(仅作概念性参考，所有题目原创设计，未引用任何量表条目)：
- *   - REI / 认知-经验自我理论(Epstein, 1996)
- *       双系统理论：理性分析 vs 经验直觉 → 维度 A/B
- *   - CFC 未来后果考量量表(Strathman et al., 1994; Joireman et al., 2012)
- *       即时取向 vs 远期取向 → 维度 S/L
- *   - 金融风险容忍框架(Grable & Lytton, 1999)
- *       概率赌局、确定损失 vs 期望收益、波动容忍 → 维度 C/G
- *   - 自我控制量表(Tangney et al., 2004)
- *       规则遵从 vs 情境调适 → 维度 D/F
- *   - Pompian 行为型投资者类型(BIT)
- *       Preserver / Follower / Independent / Accumulator → 启发 16 人格命名
+ * 学术框架参考：
+ *   - 李心丹(2002)中国证券市场投资者行为研究 → 政策依赖/从众/归因偏差 → R/X
+ *   - Big Five Neuroticism + 处置效应实证 → T/E
+ *   - 金融风险容忍框架(Grable & Lytton, 1999) → C/G
+ *   - 自我控制量表(Tangney et al., 2004) → D/F
  *
  * 题目结构：
- *   Q1-Q5   决策方式(decision)  A 分析 / B 经验
- *   Q6-Q10  交易周期(cycle)     S 短期 / L 长期
- *   Q11-Q15 风险偏好(risk)      C 保守 / G 进攻
- *   Q16-Q20 执行能力(execution) D 纪律 / F 灵活
- *   Q21-Q25 行为题(behavior)    场景化，0.5 权重，跨维度交叉打分
+ *   Q1-Q5   信息驱动(information) R 自主研究 / X 跟随外部
+ *   Q6-Q10  情绪反应(emotion)     T 稳态 / E 情绪型
+ *   Q11-Q15 风险偏好(risk)        C 保守 / G 进攻
+ *   Q16-Q20 执行能力(execution)   D 纪律 / F 机会
+ *   Q21-Q25 行为题(behavior)      场景化，0.5 权重，跨维度交叉打分
  */
 
 const questions = [
-  // ============ 决策方式 (REI: Rational vs Experiential) ============
-  { id:1, dimension:'decision',
-    text:'看到一个新机会时，你判断价值的第一步通常是？',
+  // ============ 信息驱动 (R 自主研究 / X 跟随外部) ============
+  { id:1, dimension:'information',
+    text:'看到一只股票一周涨了 50%，你的第一反应是？',
     options:[
-      { key:'A', text:'列出关键变量，逐项分析', score:{A:1} },
-      { key:'B', text:'综合感受，形成整体判断', score:{B:1} }
+      { key:'R', text:'翻它的财报、行业逻辑，判断是不是真机会', score:{R:1} },
+      { key:'X', text:'上股吧/雪球/微信群看大家怎么说', score:{X:1} }
     ]
   },
-  { id:2, dimension:'decision',
-    text:'你更信任哪类信息？',
+  { id:2, dimension:'information',
+    text:'你最常用的选股信息源是？',
     options:[
-      { key:'A', text:'可量化、可重复验证的数据', score:{A:1} },
-      { key:'B', text:'多年实战积累的经验判断', score:{B:1} }
+      { key:'R', text:'自己写的指标、筛选器、财报数据', score:{R:1} },
+      { key:'X', text:'公众号、抖音、微信群、大V 推荐', score:{X:1} }
     ]
   },
-  { id:3, dimension:'decision',
-    text:'当数据分析和你的市场直觉冲突时，你倾向？',
+  { id:3, dimension:'information',
+    text:'央行突然降准，你会？',
     options:[
-      { key:'A', text:'按数据所示，重新审视情境', score:{A:1} },
-      { key:'B', text:'按直觉所感，重新审视数据', score:{B:1} }
+      { key:'R', text:'自己推演哪些行业链条受益，再去筛个股', score:{R:1} },
+      { key:'X', text:'看市场喊的"受益板块"是哪个，跟一下', score:{X:1} }
     ]
   },
-  { id:4, dimension:'decision',
-    text:'研究一只股票，你更愿意深挖？',
+  { id:4, dimension:'information',
+    text:'买入一只股票前，你通常会？',
     options:[
-      { key:'A', text:'财务结构、行业模型、量化因子', score:{A:1} },
-      { key:'B', text:'资金动向、市场情绪、机构行为', score:{B:1} }
+      { key:'R', text:'写下买入逻辑、目标位、止损位', score:{R:1} },
+      { key:'X', text:'觉得"应该会涨"就买了，之后再补理由', score:{X:1} }
     ]
   },
-  { id:5, dimension:'decision',
-    text:'你更欣赏哪种交易者？',
+  { id:5, dimension:'information',
+    text:'复盘亏损时你更倾向于归因于？',
     options:[
-      { key:'A', text:'能用明确规则解释每一笔交易的人', score:{A:1} },
-      { key:'B', text:'能在复杂行情里读懂主线节奏的人', score:{B:1} }
-    ]
-  },
-
-  // ============ 交易周期 (CFC: Immediate vs Future Consequences) ============
-  { id:6, dimension:'cycle',
-    text:'你更喜欢哪种反馈节奏？',
-    options:[
-      { key:'S', text:'几小时到几天就能见结果', score:{S:1} },
-      { key:'L', text:'几周到几个月慢慢兑现', score:{L:1} }
-    ]
-  },
-  { id:7, dimension:'cycle',
-    text:'你持有一笔满意仓位的舒适区间通常是？',
-    options:[
-      { key:'S', text:'数日到两周', score:{S:1} },
-      { key:'L', text:'数月到数年', score:{L:1} }
-    ]
-  },
-  { id:8, dimension:'cycle',
-    text:'你查看账户的习惯更接近？',
-    options:[
-      { key:'S', text:'每天甚至盘中多次', score:{S:1} },
-      { key:'L', text:'每周或更长周期看一次即可', score:{L:1} }
-    ]
-  },
-  { id:9, dimension:'cycle',
-    text:'你更愿意把研究时间花在？',
-    options:[
-      { key:'S', text:'跟踪当下市场节奏与板块切换', score:{S:1} },
-      { key:'L', text:'研究长期产业逻辑与企业基本面', score:{L:1} }
-    ]
-  },
-  { id:10, dimension:'cycle',
-    text:'你认为账户更应该如何增长？',
-    options:[
-      { key:'S', text:'在关键节点抓爆发，阶段性跳台阶', score:{S:1} },
-      { key:'L', text:'稳步复利，接受慢但确定的增长', score:{L:1} }
+      { key:'R', text:'自己的判断或系统哪个环节错了', score:{R:1} },
+      { key:'X', text:'庄家洗盘、突发消息、政策变脸、运气不好', score:{X:1} }
     ]
   },
 
-  // ============ 风险偏好 (Risk Tolerance: Conservative vs Aggressive) ============
+  // ============ 情绪反应 (T 稳态 / E 情绪型) ============
+  { id:6, dimension:'emotion',
+    text:'账户单日亏损 5%，你当晚？',
+    options:[
+      { key:'T', text:'该吃吃该睡睡，明天按计划操作', score:{T:1} },
+      { key:'E', text:'翻来覆去睡不着，反复看盘后数据', score:{E:1} }
+    ]
+  },
+  { id:7, dimension:'emotion',
+    text:'持仓股突然涨停，你的第一反应是？',
+    options:[
+      { key:'T', text:'看一眼，回到原计划', score:{T:1} },
+      { key:'E', text:'兴奋，开始盘算"还能涨多少"，加仓念头浮现', score:{E:1} }
+    ]
+  },
+  { id:8, dimension:'emotion',
+    text:'连续亏 3 天，第 4 天你最可能？',
+    options:[
+      { key:'T', text:'减小仓位继续执行系统', score:{T:1} },
+      { key:'E', text:'要么不敢开仓、要么报复性加仓回本', score:{E:1} }
+    ]
+  },
+  { id:9, dimension:'emotion',
+    text:'群里别人晒涨停截图，你？',
+    options:[
+      { key:'T', text:'不太影响，继续自己节奏', score:{T:1} },
+      { key:'E', text:'心里痒，翻自选股找类似机会', score:{E:1} }
+    ]
+  },
+  { id:10, dimension:'emotion',
+    text:'家人或同事质疑你炒股，你？',
+    options:[
+      { key:'T', text:'解释一下就过，不影响交易', score:{T:1} },
+      { key:'E', text:'情绪受影响，第二天操作明显变形', score:{E:1} }
+    ]
+  },
+
+  // ============ 风险偏好 (C 保守 / G 进攻) ============
   { id:11, dimension:'risk',
     text:'同样的预期年化收益下，你更愿意？',
     options:[
@@ -138,7 +138,7 @@ const questions = [
     ]
   },
 
-  // ============ 执行能力 (Self-Control: Discipline vs Flexibility) ============
+  // ============ 执行能力 (D 纪律 / F 机会驱动) ============
   { id:16, dimension:'execution',
     text:'制定好的交易计划，你？',
     options:[
@@ -175,40 +175,40 @@ const questions = [
     ]
   },
 
-  // ============ 行为题 (Scenario-based, cross-loaded, weight 0.5) ============
+  // ============ 行为题 (场景化，权重 0.5，跨维度) ============
   { id:21, dimension:'behavior',
     text:'刚买入的股票当天就跌了 5%。第二天开盘前，你最可能？',
     options:[
-      { key:'A', text:'重新核对买入逻辑，逻辑成立就持有', score:{A:0.5, D:0.5} },
-      { key:'B', text:'优先看盘面强弱，弱势先减仓再说', score:{B:0.5, F:0.5} }
+      { key:'R', text:'重新核对买入逻辑，逻辑成立就持有', score:{R:0.5, D:0.5} },
+      { key:'X', text:'看群里和大V怎么说，跟着调整', score:{X:0.5, E:0.5} }
     ]
   },
   { id:22, dimension:'behavior',
     text:'你看好的板块连涨 3 天，你还没买入。第 4 天开盘，你？',
     options:[
-      { key:'A', text:'等回调再说，追高胜率不高', score:{L:0.5, C:0.5} },
-      { key:'B', text:'至少先建一部分，怕错过主升', score:{S:0.5, G:0.5} }
+      { key:'C', text:'等回调再说，追高胜率不高', score:{C:0.5, T:0.5} },
+      { key:'G', text:'至少先建一部分，怕错过主升', score:{G:0.5, E:0.5} }
     ]
   },
   { id:23, dimension:'behavior',
     text:'账户连续盈利 5 个交易日，第 6 天你的真实状态是？',
     options:[
-      { key:'A', text:'刻意收一收，避免连胜带来的膨胀', score:{D:0.5, C:0.5} },
-      { key:'B', text:'顺势加力，趁状态好乘胜追击', score:{F:0.5, G:0.5} }
+      { key:'D', text:'刻意收一收，避免连胜带来的膨胀', score:{D:0.5, T:0.5} },
+      { key:'F', text:'顺势加力，趁状态好乘胜追击', score:{F:0.5, G:0.5} }
     ]
   },
   { id:24, dimension:'behavior',
     text:'持有 3 个月的股票刚跌破关键支撑，但你的长期逻辑没变，你？',
     options:[
-      { key:'A', text:'按预设规则减仓或离场，纪律优先', score:{D:0.5, S:0.5} },
-      { key:'B', text:'坚守长期判断，等趋势重新确认', score:{L:0.5, F:0.5} }
+      { key:'D', text:'按预设规则减仓或离场，纪律优先', score:{D:0.5, C:0.5} },
+      { key:'F', text:'坚守长期判断，等趋势重新确认', score:{F:0.5, R:0.5} }
     ]
   },
   { id:25, dimension:'behavior',
     text:'一次显著亏损之后，你最常做的事是？',
     options:[
-      { key:'A', text:'写下交易日志，定位偏离系统的具体环节', score:{A:0.5, D:0.5} },
-      { key:'B', text:'先暂停一两天，调整状态再回市场', score:{F:0.5, C:0.5} }
+      { key:'R', text:'写下交易日志，定位偏离系统的具体环节', score:{R:0.5, D:0.5} },
+      { key:'X', text:'去翻别人怎么看后市，先暂停几天再说', score:{X:0.5, E:0.5} }
     ]
   }
 ]
