@@ -2,3 +2,14 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Python (server/)
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
+venv/
+
+# 打包产物
+*.zip

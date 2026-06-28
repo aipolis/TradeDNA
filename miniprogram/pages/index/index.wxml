@@ -3,7 +3,7 @@
     <view class="topbar">
       <view class="brand">
         <image class="logo-mini" src="/assets/logo.png"/>
-        <view><view class="brand-title">TradeDNA</view><view class="brand-sub">交易DNA实验室</view></view>
+        <view><view class="brand-title">TradeDNA</view><view class="brand-sub">交易人格测评</view></view>
       </view>
       <view class="pill">V2 Lab</view>
     </view>
@@ -28,6 +28,7 @@
   </view>
 
   <view class="footer-note">发现交易基因 · 找到最适合你的交易体系</view>
+  <view class="footer-note" style="opacity:.5;font-size:20rpx;margin-top:8rpx;">※ 本工具为个人决策风格测评，仅作自我认知参考，不构成任何专业建议</view>
   </view></view>
   <tabbar active="index"/>
 </view>

@@ -79,7 +79,6 @@
       <image class="qr-img" src="/assets/qrcode.jpg" mode="aspectFill" show-menu-by-longpress="{{true}}"/>
     </view>
     <view class="follow-qr-tip center">长按识别二维码 · 或点击按钮直接关注</view>
-    <view class="footer-note">散户量化转型纪实 · AI 辅助交易</view>
   </view>
 
   <view wx:if="{{historyCount > 0}}" class="mine-clear" bindtap="clearHistory">清除所有测评记录</view>

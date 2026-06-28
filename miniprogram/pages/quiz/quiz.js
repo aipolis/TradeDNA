@@ -130,6 +130,28 @@ Page({
       wx.setStorageSync('tradeDNAResult', result)
       wx.removeStorageSync(PROGRESS_KEY)
 
+      // 异步上报云端,失败不阻塞跳转
+      try {
+        const { submitResult } = require('../../utils/api')
+        const { getProfile } = require('../../utils/userProfile')
+        const profile = getProfile()
+        submitResult({
+          code: result.code,
+          score: result.score,
+          source: 'quiz',
+          clientUid: profile.uid || '',
+          nickName: profile.nickName || '',
+          avatarUrl: profile.avatarUrl || '',
+          extra: {
+            cognitiveCode: result.cognitiveCode || '',
+            behaviorCode: result.behaviorCode || '',
+            durationMs: (this.data.timings || []).reduce((a, b) => a + (b || 0), 0)
+          }
+        }).catch(err => console.warn('[quiz] submitResult skipped', err && err.message))
+      } catch(err) {
+        console.warn('[quiz] submitResult require failed', err)
+      }
+
       wx.redirectTo({ url:'/pages/result/result' })
       return
     }

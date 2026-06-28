@@ -29,6 +29,14 @@ function completeLogin(profilePatch){
         loginAt: Date.now()
       }))
       ensureUid(next)
+      // 异步同步到云端,失败不阻塞登录
+      try {
+        const { syncProfile } = require('./api')
+        syncProfile({ nickName: next.nickName, avatarUrl: next.avatarUrl })
+          .catch(err => console.warn('[auth] profile sync skipped', err && err.message))
+      } catch(err) {
+        console.warn('[auth] profile sync require failed', err)
+      }
       return next
     })
 }
