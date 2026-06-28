@@ -38,6 +38,10 @@ function getDisplayName(profile){
   return name || '交易者'
 }
 
+function clearProfile(){
+  wx.removeStorageSync(KEY)
+}
+
 module.exports = {
-  getProfile, saveProfile, ensureUid, isProfileReady, getDisplayName
+  getProfile, saveProfile, ensureUid, isProfileReady, getDisplayName, clearProfile
 }

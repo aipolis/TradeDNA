@@ -82,6 +82,7 @@
   </view>
 
   <view wx:if="{{historyCount > 0}}" class="mine-clear" bindtap="clearHistory">清除所有测评记录</view>
+  <view wx:if="{{isLoggedIn}}" class="mine-clear" bindtap="onLogout" style="margin-top:16rpx;">退出登录</view>
 
   <view class="footer-note">TradeDNA v1.0 · 发现你的交易基因</view>
   </view></view>

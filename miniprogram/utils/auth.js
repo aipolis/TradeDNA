@@ -1,4 +1,4 @@
-const { getProfile, saveProfile, ensureUid, isProfileReady } = require('./userProfile')
+const { getProfile, saveProfile, ensureUid, isProfileReady, clearProfile } = require('./userProfile')
 
 function wxLogin(){
   return new Promise((resolve, reject)=>{
@@ -53,6 +53,16 @@ function ensureProfile(redirect){
   return Promise.reject(new Error('need login'))
 }
 
+function logout(opts){
+  clearProfile()
+  // 同时清测评相关本地缓存,避免下一个用户进来看到上一个的数据
+  wx.removeStorageSync('tradeDNAResult')
+  wx.removeStorageSync('tradeDNAHistory')
+  wx.removeStorageSync('tradeDNAProgress')
+  const redirect = (opts && opts.redirect) || '/pages/index/index'
+  wx.reLaunch({ url: redirect })
+}
+
 module.exports = {
-  wxLogin, resolveOpenId, completeLogin, goLogin, ensureProfile, isProfileReady
+  wxLogin, resolveOpenId, completeLogin, goLogin, ensureProfile, isProfileReady, logout
 }
