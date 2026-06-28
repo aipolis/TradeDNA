@@ -21,8 +21,11 @@ function dimensionsToScore(dimensions){
 }
 
 function cloudRowToHistory(row){
+  const extra = row.extra || {}
   return {
     code: row.dna_code,
+    cognitiveCode: extra.cognitiveCode || '',
+    behaviorCode: extra.behaviorCode || '',
     name: (getPersonality(row.dna_code) || {}).name || '',
     timestamp: new Date(row.created_at).getTime()
   }
@@ -30,8 +33,11 @@ function cloudRowToHistory(row){
 
 function cloudRowToResult(row){
   const code = row.dna_code
+  const extra = row.extra || {}
   return {
     code,
+    cognitiveCode: extra.cognitiveCode || '',
+    behaviorCode: extra.behaviorCode || '',
     score: dimensionsToScore(row.dimensions),
     personality: getPersonality(code),
     timestamp: new Date(row.created_at).getTime(),

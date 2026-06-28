@@ -191,6 +191,16 @@ def save_result(
         return False
 
 
+def _parse_json_field(row: dict, key: str) -> None:
+    """安全把 JSON 字符串字段解析成 dict"""
+    val = row.get(key)
+    if isinstance(val, str) and val:
+        try:
+            row[key] = json.loads(val)
+        except Exception:
+            pass
+
+
 def get_latest_result(openid: str) -> Optional[dict]:
     if not openid or not ensure_tables():
         return None
@@ -199,7 +209,7 @@ def get_latest_result(openid: str) -> Optional[dict]:
         with conn.cursor() as cur:
             cur.execute(
                 f"""
-                SELECT id, dna_code, dimensions, schema_version, source, created_at
+                SELECT id, dna_code, dimensions, schema_version, source, extra, created_at
                 FROM `{TABLE_RESULTS}`
                 WHERE openid = %s
                 ORDER BY created_at DESC
@@ -213,10 +223,8 @@ def get_latest_result(openid: str) -> Optional[dict]:
     try:
         row = with_retry(_run)
         if row:
-            try:
-                row["dimensions"] = json.loads(row["dimensions"]) if isinstance(row["dimensions"], str) else row["dimensions"]
-            except Exception:
-                pass
+            _parse_json_field(row, "dimensions")
+            _parse_json_field(row, "extra")
         return row
     except Exception:
         log.exception("get_latest_result failed")
@@ -232,7 +240,7 @@ def get_history(openid: str, *, limit: int = 20) -> list[dict]:
         with conn.cursor() as cur:
             cur.execute(
                 f"""
-                SELECT id, dna_code, dimensions, schema_version, source, created_at
+                SELECT id, dna_code, dimensions, schema_version, source, extra, created_at
                 FROM `{TABLE_RESULTS}`
                 WHERE openid = %s
                 ORDER BY created_at DESC
@@ -245,10 +253,8 @@ def get_history(openid: str, *, limit: int = 20) -> list[dict]:
     try:
         rows = with_retry(_run)
         for r in rows:
-            try:
-                r["dimensions"] = json.loads(r["dimensions"]) if isinstance(r["dimensions"], str) else r["dimensions"]
-            except Exception:
-                pass
+            _parse_json_field(r, "dimensions")
+            _parse_json_field(r, "extra")
         return rows
     except Exception:
         log.exception("get_history failed")
