@@ -84,7 +84,7 @@
       </view>
     </view>
     <view class="poster-follow-row">
-      <view class="btn-follow-oac poster-follow-btn" bindtap="followOfficial">+ 关注公众号「量化新手村」</view>
+      <view class="btn-follow-oac poster-follow-btn" bindtap="followOfficial">+ 关注公众号「交易人格档案馆」</view>
       <view class="follow-qr-tip center">长按上方二维码可识别</view>
     </view>
   </view>

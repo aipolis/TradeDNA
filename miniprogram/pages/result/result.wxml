@@ -60,7 +60,7 @@
     </view>
     <view class="follow-qr" bindtap="followOfficial">
       <image class="follow-qr-img" src="/assets/qrcode.jpg" mode="aspectFill" show-menu-by-longpress="{{true}}"/>
-      <view class="follow-qr-tag">量化新手村</view>
+      <view class="follow-qr-tag">交易人格档案馆</view>
       <view class="follow-qr-tip">长按识别二维码</view>
     </view>
   </view>

@@ -130,7 +130,7 @@ function drawQrBlock(ctx, W, fY, qrImg){
   ctx.textBaseline = 'middle'
   ctx.fillText('扫码关注', ix + inner/2, iy + inner/2 - 10)
   ctx.fillStyle = '#f7c66a'
-  ctx.fillText('量化新手村', ix + inner/2, iy + inner/2 + 12)
+  ctx.fillText('交易人格档案馆', ix + inner/2, iy + inner/2 + 12)
 }
 
 // === 海报导出绘制 ===

@@ -9,7 +9,7 @@
  */
 module.exports = {
   officialAccount: {
-    name: '量化新手村',
+    name: '交易人格档案馆',
     username: 'gh_2fde970498f2'
   }
 }
