@@ -86,26 +86,36 @@ def with_retry(fn: Callable, retries: int = 6):
 
 
 def ensure_schema() -> bool:
-    """首次访问时创建 database;表创建延后到各 store 模块的 ensure_*_table"""
+    """优先直接连指定 database;不存在时才尝试 CREATE(可能因权限失败,失败时让用户手动建库)"""
     global _schema_ready
     if _schema_ready or not mysql_enabled():
         return _schema_ready
 
-    def _run(conn):
+    # 路径 1:库已存在 → 直接连成功 → 跳过 CREATE(避免权限问题)
+    try:
+        with _connect(use_db=True) as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT 1")
+        _schema_ready = True
+        log.info("schema ready db=%s (existing)", MYSQL_DATABASE)
+        return True
+    except Exception as exc:
+        log.warning("connect to db=%s failed, will try create: %s", MYSQL_DATABASE, exc)
+
+    # 路径 2:库不存在 → 尝试创建(需要 CREATE 权限,云托管常见无此权限,失败请手动建库)
+    def _create(conn):
         with conn.cursor() as cur:
             cur.execute(
                 f"CREATE DATABASE IF NOT EXISTS `{MYSQL_DATABASE}` "
                 f"DEFAULT CHARACTER SET {MYSQL_CHARSET} COLLATE {MYSQL_COLLATE}"
             )
-        conn.select_db(MYSQL_DATABASE)
 
     try:
-        # 第一次连不带库名,因为库可能还没建
         with _connect(use_db=False) as conn:
-            _run(conn)
+            _create(conn)
         _schema_ready = True
-        log.info("schema ready db=%s", MYSQL_DATABASE)
+        log.info("schema ready db=%s (created)", MYSQL_DATABASE)
         return True
     except Exception:
-        log.exception("schema init failed")
+        log.exception("schema init failed; please CREATE DATABASE %s manually in MySQL console", MYSQL_DATABASE)
         return False
