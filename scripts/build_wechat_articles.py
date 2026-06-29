@@ -66,30 +66,20 @@ def build():
         with open(src, "r", encoding="utf-8") as f:
             content = f.read().rstrip()
 
-        # 去掉文件开头 H1 之后紧跟的引用块(分册的"阅读时间/适合人群"等元信息)
-        # 状态机:before_h1 → after_h1(吞掉所有 > 引用 和 空行) → body(正常输出)
+        # 清理:截断第 2 个 H1 及之后所有内容
+        # (markdown 规范一篇文章只该有 1 个 H1,中间出现的 H1 通常是给作者看的写作模板/元说明)
         lines = content.split("\n")
-        cleaned_lines = []
-        state = "before_h1"
+        cleaned = []
+        h1_count = 0
         for line in lines:
-            stripped = line.strip()
-            if state == "before_h1":
-                cleaned_lines.append(line)
-                if stripped.startswith("# "):
-                    state = "after_h1"
-            elif state == "after_h1":
-                if stripped.startswith(">") or stripped == "":
-                    # 跳过 H1 后的引用块和空行
-                    continue
-                else:
-                    cleaned_lines.append("")  # 在 H1 和正文间补一个空行
-                    cleaned_lines.append(line)
-                    state = "body"
-            else:
-                cleaned_lines.append(line)
-        content = "\n".join(cleaned_lines)
+            if line.startswith("# "):
+                h1_count += 1
+                if h1_count >= 2:
+                    break  # 遇到第 2 个 H1,后面全部丢弃
+            cleaned.append(line)
+        content = "\n".join(cleaned).rstrip()
 
-        # 追加文末 CTA
+        # 追加文末 CTA(元信息保留)
         new_content = content + FOOTER
 
         with open(dst, "w", encoding="utf-8") as f:
