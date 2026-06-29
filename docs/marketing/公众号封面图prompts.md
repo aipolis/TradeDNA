@@ -2,7 +2,31 @@
 
 > 16 张封面 + 1 张系列封面,品牌视觉统一
 > 在 ChatGPT(GPT-4 / GPT-5 + DALL-E 3)里逐个粘贴 prompt 生图
-> 建议尺寸: **1792×1024(横版,适配公众号头图)**
+
+## ⚠️ 关于尺寸(必读)
+
+**DALL-E 3 只能出 3 种固定尺寸**:
+- `1024 × 1024`(1:1 方形)
+- `1792 × 1024`(横版,1.75:1)
+- `1024 × 1792`(竖版)
+
+**不能直接出公众号头图的 900 × 500(1.8:1)** ——必须二次裁切。
+
+### 正确操作
+
+1. 在 ChatGPT 提示词的**最前面**加一句:
+   `Generate in landscape orientation at size 1792x1024.`
+   不加这句,ChatGPT 默认给你出 1024×1024 方图
+2. 出图后下载到 `F:\startup\TradeDNA\brand\covers\` 目录
+3. 跑裁切脚本统一处理成公众号需要的尺寸:
+   ```powershell
+   cd F:\startup\TradeDNA
+   powershell -ExecutionPolicy Bypass -File scripts\crop_covers.ps1
+   ```
+   会自动生成 3 个版本到 `brand/covers/output/`:
+   - `_900x500.png` — 公众号主头图(1.8:1)
+   - `_1000x1000.png` — 方图(朋友圈分享/抖音封面通用)
+   - `_200x200.png` — 公众号次条小图
 
 ---
 
