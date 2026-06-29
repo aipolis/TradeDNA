@@ -3,7 +3,7 @@
     <view class="topbar">
       <view class="brand">
         <image class="logo-mini" src="/assets/logo.png"/>
-        <view><view class="brand-title">TradeDNA</view><view class="brand-sub">交易人格测评</view></view>
+        <view><view class="brand-title">TradeDNA</view><view class="brand-sub">交易人格实验室</view></view>
       </view>
       <view class="pill">V2 Lab</view>
     </view>
