@@ -1,7 +1,8 @@
 <view class="dna-page page-shell result-page">
   <view class="page-header">
     <view class="topbar">
-      <view class="brand">
+      <view class="brand result-brand">
+        <view class="nav-back" bindtap="goBack" hover-class="nav-back-active">‹</view>
         <image class="logo-mini" src="/assets/logo.png"/>
         <view><view class="brand-title">我的交易DNA</view><view class="brand-sub">TradeDNA Report</view></view>
       </view>
@@ -9,7 +10,10 @@
     </view>
   </view>
 
-  <view class="page-scroll"><view class="safe">
+  <scroll-view scroll-y class="page-scroll result-scroll" enhanced show-scrollbar="{{false}}">
+  <view class="safe">
+  <view wx:if="{{!ready}}" class="result-loading">加载报告中…</view>
+  <block wx:else>
   <view wx:if="{{result.validityWarnings && result.validityWarnings.length}}" class="validity-banner">
     <view class="validity-banner-ico">⚠</view>
     <view class="validity-banner-body">
@@ -20,10 +24,21 @@
 
   <view class="glass-card result-main">
     <view class="result-glow"></view>
-    <view class="result-code">{{result.code}}</view>
-    <view class="type-name">{{p.name}}</view>
-    <view class="badge">{{p.tag}}</view>
-    <view class="desc result-desc">{{p.summary}}</view>
+    <view class="result-hero">
+      <view class="result-eyebrow">YOUR TRADING DNA</view>
+      <view class="result-code">{{result.code}}</view>
+      <view class="type-name">{{p.name}}</view>
+      <view class="badge">{{p.tag}}</view>
+    </view>
+    <view class="result-summary">
+      <view class="result-summary-head">
+        <view class="result-summary-bar"></view>
+        <view class="result-summary-label">人格解读</view>
+      </view>
+      <view class="result-summary-body">
+        <view class="result-para" wx:for="{{summaryParas}}" wx:key="*this">{{item}}</view>
+      </view>
+    </view>
   </view>
 
   <view wx:if="{{result.divergence && result.divergence.length}}" class="glass-card divergence-card">
@@ -60,7 +75,7 @@
     </view>
     <view class="follow-qr" bindtap="followOfficial">
       <image class="follow-qr-img" src="/assets/qrcode.jpg" mode="aspectFill" show-menu-by-longpress="{{true}}"/>
-      <view class="follow-qr-tag">交易人格档案馆</view>
+      <view class="follow-qr-tag">交易人格实验室</view>
       <view class="follow-qr-tip">长按识别二维码</view>
     </view>
   </view>
@@ -141,6 +156,8 @@
     <button class="btn-ghost" open-type="share" hover-class="none">分享给好友</button>
   </view>
   <view class="footer-note">TradeDNA · 发现交易基因 · 找到最适合你的交易体系</view>
-  </view></view>
+  </block>
+  </view>
+  </scroll-view>
   <tabbar active="mine"/>
 </view>

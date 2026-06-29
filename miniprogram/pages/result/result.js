@@ -1,6 +1,7 @@
-const { calculateResult } = require('../../utils/scoring')
 const { openOfficialAccount } = require('../../utils/follow')
 const { DIM_META } = require('../../utils/dimensions')
+const { getPersonality } = require('../../utils/personalities')
+const { getMentorAvatar } = require('../../utils/mentorAvatar')
 
 const dimMeta = DIM_META
 
@@ -116,31 +117,96 @@ function drawRadar(ctx, w, h, scoreList){
   })
 }
 
-Page({
-  data:{ result:{code:'RTGD'}, p:{}, scoreList:[], dim4:[], mentorList:[] },
-  onLoad(){
-    const result = wx.getStorageSync('tradeDNAResult')
-    if(!result || !result.code){
-      wx.showToast({ title:'还没有测评结果', icon:'none' })
-      setTimeout(()=>wx.reLaunch({ url:'/pages/intro/intro' }), 800)
-      return
+function splitSummary(text){
+  if(!text) return []
+  const out = []
+  let buf = ''
+  for(let i = 0; i < text.length; i++){
+    const ch = text[i]
+    buf += ch
+    if(ch === '。' || ch === '！' || ch === '？'){
+      const seg = buf.trim()
+      if(seg) out.push(seg)
+      buf = ''
     }
-    // 用 result.code 重新查最新 personality,避免旧 storage 里的旧人格数据
-    const { getPersonality } = require('../../utils/personalities')
-    const p = getPersonality(result.code) || result.personality
-    result.personality = p
-    const scoreList = Object.keys(p.scores).map(k=>({ name:k, value:p.scores[k] })).sort((a,b)=>b.value-a.value)
-    const dim4 = buildDim4(result.score||{}, result)
-    const { getMentorAvatar } = require('../../utils/mentorAvatar')
-    const mentorList = (p.mentors||[]).map(m=>({
-      name: m.name,
-      title: m.title,
-      bio: m.bio,
-      lesson: m.lesson,
-      avatar: getMentorAvatar(m.name),
-      initial: m.name ? m.name.charAt(0) : ''
-    }))
-    this.setData({ result, p, scoreList, dim4, mentorList }, ()=>this.renderRadar(scoreList))
+  }
+  const tail = buf.trim()
+  if(tail) out.push(tail)
+  return out.length ? out : [String(text)]
+}
+
+Page({
+  data:{ result:{code:''}, p:{}, scoreList:[], dim4:[], mentorList:[], summaryParas:[], ready:false },
+
+  onLoad(){ this.loadResult() },
+  onShow(){
+    if(!this.data.ready && !this._loading) this.loadResult()
+  },
+
+  loadResult(){
+    if(this._loading) return
+    this._loading = true
+    try {
+      const result = wx.getStorageSync('tradeDNAResult')
+      if(!result || !result.code){
+        this._loading = false
+        wx.showToast({ title:'还没有测评结果', icon:'none' })
+        setTimeout(()=>{
+          wx.navigateBack({
+            delta: 1,
+            fail: () => wx.reLaunch({ url:'/pages/mine/mine' })
+          })
+        }, 800)
+        return
+      }
+
+      const code = String(result.code).toUpperCase()
+      const p = getPersonality(code) || result.personality
+      if(!p || !p.scores){
+        this._loading = false
+        wx.showToast({ title:'报告数据异常', icon:'none' })
+        return
+      }
+
+      result.code = code
+      result.personality = p
+      if(!result.information && code.length >= 4){
+        result.information = code[0]
+        result.emotion = code[1]
+        result.risk = code[2]
+        result.execution = code[3]
+      }
+
+      const scoreList = Object.keys(p.scores).map(k=>({
+        name:k, value:p.scores[k]
+      })).sort((a,b)=>b.value-a.value)
+      const dim4 = buildDim4(result.score||{}, result)
+      const mentorList = (p.mentors||[]).map(m=>({
+        name: m.name,
+        title: m.title,
+        bio: m.bio,
+        lesson: m.lesson,
+        avatar: getMentorAvatar(m.name),
+        initial: m.name ? m.name.charAt(0) : ''
+      }))
+      const summaryParas = splitSummary(p.summary)
+
+      this.setData({ result, p, scoreList, dim4, mentorList, summaryParas, ready:true }, ()=>{
+        this._loading = false
+        this.renderRadar(scoreList)
+      })
+    } catch(err){
+      this._loading = false
+      console.error('[result] loadResult fail', err)
+      wx.showToast({ title:'报告加载失败', icon:'none' })
+    }
+  },
+
+  goBack(){
+    wx.navigateBack({
+      delta: 1,
+      fail: () => wx.reLaunch({ url:'/pages/mine/mine' })
+    })
   },
   renderRadar(scoreList){
     const tryRender = (attempt)=>{

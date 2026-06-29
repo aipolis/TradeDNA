@@ -1,5 +1,5 @@
 // 名人头像映射 V3
-// 头像图放在 /assets/mentors/ 下，推荐 300×300 JPG（quality ~88）
+// 头像图放在 /assets/mentors/ 下（120×120 JPG，全包图片总量需 <200KB）
 // 没找到映射则前端降级为名字首字圆圈
 // V3 新增 ~30 位导师，头像可后续补充，暂时降级为首字圈
 const MENTOR_AVATARS = {

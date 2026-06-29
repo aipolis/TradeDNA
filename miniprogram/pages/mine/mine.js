@@ -136,7 +136,12 @@ Page({
 
   start(){ wx.reLaunch({ url:'/pages/intro/intro' }) },
   retake(){ wx.reLaunch({ url:'/pages/intro/intro' }) },
-  viewReport(){ wx.navigateTo({ url:'/pages/result/result' }) },
+  viewReport(){
+    wx.navigateTo({
+      url:'/pages/result/result',
+      fail: () => wx.redirectTo({ url:'/pages/result/result' })
+    })
+  },
   followOfficial(){ openOfficialAccount() },
 
   clearHistory(){

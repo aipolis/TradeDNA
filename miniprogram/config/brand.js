@@ -9,7 +9,7 @@
  */
 module.exports = {
   officialAccount: {
-    name: '交易人格档案馆',
+    name: '交易人格实验室',
     username: 'gh_2fde970498f2'
   }
 }
